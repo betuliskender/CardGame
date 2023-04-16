@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
    public static PlayerManager instance;
-   public List<Player> PlayerList = new List<Player>();
+   public List<Player> playerList = new List<Player>();
 
     private void Awake()
     {
@@ -14,15 +14,15 @@ public class PlayerManager : MonoBehaviour
     }
     private void Start()
     {
-        UIManager.instance.UpdateValues(PlayerList[0], PlayerList[1]);
+        UIManager.instance.UpdateValues(playerList[0], playerList[1]);
     }
 
     internal void AssignTurn(int currentPlayerTurn)
     {
-        foreach (Player player in PlayerList)
+        foreach (Player player in playerList)
         {
             player.myTurn = player.ID == currentPlayerTurn;
-            if (player.myTurn) player.mana = 5;
+            if (player.myTurn) player.mana = 10;
         }
     }
 
@@ -30,7 +30,10 @@ public class PlayerManager : MonoBehaviour
     {
         Player player = FindPlayerByID(ID);
         player.health -= damage;
-        if(player.health <= 0 )
+        UIManager.instance.UpdateHealthValues(playerList[0].health, playerList[1].health);
+
+
+        if (player.health <= 0 )
         {
             PlayerLost(ID);
         }
@@ -45,12 +48,19 @@ public class PlayerManager : MonoBehaviour
     {
         Player foundPlayer = null;
 
-        foreach (Player player in PlayerList)
+        foreach (Player player in playerList)
         {
+            if (player.ID == ID)
             foundPlayer = player;
         }
         return foundPlayer;
     }
 
-   
+    internal void SpendMana(int ownerID, int manaCost)
+    {
+        FindPlayerByID(ownerID).mana -= manaCost;
+        UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
+    }
+
+
 }

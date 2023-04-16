@@ -19,15 +19,25 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         image = GetComponent<Image>();
     }
     
-    public void Initialize(Card card)
+    public void Initialize(Card card, int ownerID)
     {
-        this.card = card;
+        this.card = new Card(card)
+        {
+            ownerID = ownerID
+        };
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
         damage.text = card.damage.ToString();
         health.text = card.health.ToString();
         originalParent = transform.parent;
+        if (card.health == 0) health.text = "";
+    }
+
+    public void Damage(int amount)
+    {
+        card.health -= amount;
+        health.text = card.health.ToString();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -42,7 +52,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea")
+        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             
         } else
@@ -55,7 +65,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (originalParent.name == $"Player{card.ownerID + 1}PlayArea")
+        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
 
         } else
@@ -74,7 +84,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if(PlayerManager.instance.FindPlayerByID(card.ownerID).mana >= card.manaCost)
             {
                 PlayCard(eventData.pointerEnter.transform);
-            }else
+                PlayerManager.instance.SpendMana(card.ownerID, card.manaCost);
+
+            }
+            else
             {
                 ReturnToHand();
             }
@@ -89,6 +102,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         transform.SetParent(playArea);
         transform.localPosition = Vector3.zero;
         originalParent = playArea;
+        CardManager.instance.PlayCard(this, card.ownerID); 
     }
 
     private void ReturnToHand()

@@ -573,7 +573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hi
+  m_text: Player1's turn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -956,8 +956,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.609, y: 400}
-  m_SizeDelta: {x: 1858.89, y: 275}
+  m_AnchoredPosition: {x: -6.609, y: 408}
+  m_SizeDelta: {x: 1858.89, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &522683072
 MonoBehaviour:
@@ -1897,14 +1897,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17922376fe4f85b4f9e3ead42d638c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerList:
+  playerList:
   - health: 30
     mana: 10
-    ID: 1
+    ID: 0
     myTurn: 0
   - health: 30
     mana: 10
-    ID: 2
+    ID: 1
     myTurn: 0
 --- !u!114 &1406088112
 MonoBehaviour:
@@ -1920,26 +1920,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cards:
   - cardName: Human Thrall
-    health: 10
-    damage: 8
-    manaCost: 6
+    health: 5
+    damage: 3
+    manaCost: 2
     ownerID: 0
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
   - cardName: Beast
-    health: 10
-    damage: 8
-    manaCost: 4
+    health: 4
+    damage: 4
+    manaCost: 3
+    ownerID: 0
+    illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
+  - cardName: Ghoul
+    health: 5
+    damage: 3
+    manaCost: 2
     ownerID: 0
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
   - cardName: Spell
-    health: 5
+    health: 0
     damage: 3
     manaCost: 2
     ownerID: 1
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
   player1Hand: {fileID: 1686139775}
-  player2Hand: {fileID: 0}
+  player2Hand: {fileID: 522683071}
   cardControllerPrefab: {fileID: -1444694407838539912, guid: f46229d7668be8b4eb79ce9080c68fea, type: 3}
+  player1Cards: []
+  player2Cards: []
 --- !u!4 &1406088113
 Transform:
   m_ObjectHideFlags: 0
@@ -2143,8 +2151,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.609, y: -402.3}
-  m_SizeDelta: {x: 1858.89, y: 275}
+  m_AnchoredPosition: {x: -6.609, y: -410}
+  m_SizeDelta: {x: 1858.89, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1686139776
 MonoBehaviour:
@@ -2246,7 +2254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.609, y: -132}
+  m_AnchoredPosition: {x: -6.609, y: -134}
   m_SizeDelta: {x: 1858.89, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821712444
@@ -2451,7 +2459,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.609, y: 126}
+  m_AnchoredPosition: {x: -6.609, y: 139}
   m_SizeDelta: {x: 1858.89, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1906879201
