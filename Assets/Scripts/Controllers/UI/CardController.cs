@@ -52,6 +52,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log(eventData.pointerEnter);
         if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             
@@ -65,7 +66,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
+        Debug.Log(eventData.pointerEnter);
+        if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
 
         } else
@@ -113,6 +115,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log(eventData.pointerEnter.name);
         if (transform.parent == originalParent) return;
         transform.position = eventData.position;
     }

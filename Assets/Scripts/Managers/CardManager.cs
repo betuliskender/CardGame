@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
     public List<Card> cards = new List<Card>();
+    public Deck player1Deck, player2Deck;
     public Transform player1Hand, player2Hand;
+    public Button player1Button, player2Button;
     public CardController cardControllerPrefab;
     public List<CardController> player1Cards = new List<CardController>(),
         player2Cards = new List<CardController>();
@@ -15,6 +18,24 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        player1Deck = new Deck(cards);
+        player2Deck = new Deck(cards);
+        SetupButton(player1Button, player1Hand, 0, player1Deck);
+        SetupButton(player2Button, player2Hand, 1, player2Deck);
+
+    }
+
+    private void SetupButton(Button button, Transform hand, int ID, Deck deck)
+    {
+        button.onClick.AddListener(() =>
+        {
+            var card = deck.DrawCard();
+            CardController newCard = Instantiate(cardControllerPrefab, hand);
+            newCard.transform.localPosition = Vector3.zero;
+            newCard.Initialize(card, ID);
+        });
+
+        
     }
 
     private void Start()
@@ -24,13 +45,13 @@ public class CardManager : MonoBehaviour
 
     private void GenerateCards()
     {
-        foreach (Card card in cards)
+        foreach (Card card in player1Deck.StartHand())
         {
             CardController newCard = Instantiate(cardControllerPrefab, player1Hand);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card, 0);
         }
-        foreach (Card card in cards)
+        foreach (Card card in player2Deck.StartHand())
         {
             CardController newCard = Instantiate(cardControllerPrefab, player2Hand);
             newCard.transform.localPosition = Vector3.zero;
