@@ -48,10 +48,10 @@ public class EditDeckManager : MonoBehaviour
         {
             chosenCards.Add(card, 1);    
         }
-        SetupChosenCards();
+        SetupChosenCardsView();
     }
 
-    private void SetupChosenCards()
+    private void SetupChosenCardsView()
     {
         var image = GameObject.Find("Image");
 
@@ -76,5 +76,19 @@ public class EditDeckManager : MonoBehaviour
             }
 
         }
+    }
+
+    public List<Card> ChosenCardsToList(Dictionary<Card, int> chosenCards)
+    {
+        List<Card> cards = new List<Card>();
+        foreach (KeyValuePair<Card, int> card in chosenCards)
+        {
+            for(int i = 0; i < card.Value; i++)
+            {
+                cards.Add(card.Key);
+            }
+        }
+
+            return cards;
     }
 }

@@ -31,13 +31,13 @@ public class GameEndUIController : MonoBehaviour
 
     private void QuitGame()
     {
-        if(Application.isEditor)
-        {
-            EditorApplication.ExitPlaymode();
-        } else
-        {
+        //if(Application.isEditor)
+        //{
+        //    EditorApplication.ExitPlaymode();
+        //} else
+        //{
+        //}
             Application.Quit();
-        }
     }
 
     private void RestartMatch()
