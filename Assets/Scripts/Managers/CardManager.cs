@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,9 +31,9 @@ public class CardManager : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             var card = deck.DrawCard();
-            CardController newCard = Instantiate(cardControllerPrefab, hand);
+            CardController newCard = Instantiate(cardControllerPrefab, hand.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, ID);
+            newCard.Initialize(card, ID, ID == 0 ? player1Hand : player2Hand);
         });
 
         
@@ -47,15 +48,15 @@ public class CardManager : MonoBehaviour
     {
         foreach (Card card in player1Deck.StartHand())
         {
-            CardController newCard = Instantiate(cardControllerPrefab, player1Hand);
+            CardController newCard = Instantiate(cardControllerPrefab, player1Hand.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 0);
+            newCard.Initialize(card, 0, player1Hand);
         }
         foreach (Card card in player2Deck.StartHand())
         {
-            CardController newCard = Instantiate(cardControllerPrefab, player2Hand);
+            CardController newCard = Instantiate(cardControllerPrefab, player2Hand.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 1);
+            newCard.Initialize(card, 1, player2Hand);
         }
     }
 
@@ -150,6 +151,7 @@ public class CardManager : MonoBehaviour
         }
         foreach (CardController cardController in cards)
         {
+            if (cardController == null) continue;
             if (AreThereCardsWithHealth(enemyCards))
             {
                 int randomEnemyCard = Random.Range(0, enemyCards.Count);
@@ -158,11 +160,21 @@ public class CardManager : MonoBehaviour
                     randomEnemyCard = Random.Range(0, enemyCards.Count);
                 }
                 enemyCards[randomEnemyCard].Damage(cardController.card.damage);
+                cardController.transform.SetParent(cardController.transform.root);
+                cardController.transform.DOMove(enemyCards[randomEnemyCard].transform.position, 0.35f, true).onComplete += () =>
+                {
+                    cardController.ReturnToHand();
+                };
                 cardController.Damage(enemyCards[randomEnemyCard].card.damage);
             }
             else
             {
                 int enemyID = ID == 0 ? 1 : 0;
+                cardController.transform.SetParent(cardController.transform.root);
+                cardController.transform.DOMove(ID == 0 ? player2Hand.transform.position : player1Hand.transform.position, 0.35f, true).onComplete += () =>
+                {
+                    cardController.ReturnToHand();
+                };
                 PlayerManager.instance.DamagePlayer(enemyID, cardController.card.damage);
             }
 

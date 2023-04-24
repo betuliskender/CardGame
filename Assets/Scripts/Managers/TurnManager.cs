@@ -35,8 +35,14 @@ public class TurnManager : MonoBehaviour
     public void EndTurn()
     {
         CardManager.instance.ProcessEndTurn(currentPlayerTurn);
+        StartCoroutine(WaitForAttacks(currentPlayerTurn == 0 ? CardManager.instance.player1Cards.Count: CardManager.instance.player2Cards.Count));
         currentPlayerTurn = currentPlayerTurn == 0 ? 1 : 0;
         
+    }
+
+    private IEnumerator WaitForAttacks(float cards)
+    {
+        yield return new WaitForSeconds(cards * 0.35f);
         StartTurn();
     }
 }

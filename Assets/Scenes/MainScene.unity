@@ -1959,8 +1959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winnerName: {fileID: 460416646}
-  restart: {fileID: 0}
-  quit: {fileID: 0}
+  restart: {fileID: 900999779}
+  quit: {fileID: 642367906}
 --- !u!1 &1342439795
 GameObject:
   m_ObjectHideFlags: 0

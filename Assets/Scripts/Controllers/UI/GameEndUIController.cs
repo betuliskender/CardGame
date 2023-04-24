@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class GameEndUIController : MonoBehaviour
 {
@@ -17,12 +19,35 @@ public class GameEndUIController : MonoBehaviour
 
     private void SetupButtons()
     {
-        throw new NotImplementedException();
+        restart.onClick.AddListener(() =>
+        {
+            RestartMatch();
+        });
+        quit.onClick.AddListener(() =>
+        {
+            QuitGame();
+        });
+    }
+
+    private void QuitGame()
+    {
+        if(Application.isEditor)
+        {
+            EditorApplication.ExitPlaymode();
+        } else
+        {
+            Application.Quit();
+        }
+    }
+
+    private void RestartMatch()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Initialize(Player winner)
     {
-        winnerName.text = "Player: " + winner.ID + " has won!";
+        winnerName.text = $"Player: {winner.ID+1} has won!";
     }
     
 }

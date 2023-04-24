@@ -33,7 +33,7 @@ public class PlayerManager : MonoBehaviour
         UIManager.instance.UpdateHealthValues(playerList[0].health, playerList[1].health);
 
 
-        if (player.health <= 0 )
+        if (player.health <= 0)
         {
             PlayerLost(ID);
         }
@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
     private void PlayerLost(int ID)
     {
-        UIManager.instance.GameFinished(ID ==0?FindPlayerByID(1) : FindPlayerByID(0));
+        UIManager.instance.GameFinished(ID == 0 ? FindPlayerByID(1) : FindPlayerByID(0));
     }
 
     public Player FindPlayerByID(int ID)
