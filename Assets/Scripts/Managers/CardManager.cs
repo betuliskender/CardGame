@@ -19,8 +19,9 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        player1Deck = new Deck(cards);
-        player2Deck = new Deck(cards);
+        //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
+        player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
+        player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
         SetupButton(player1Button, player1Hand, 0, player1Deck);
         SetupButton(player2Button, player2Hand, 1, player2Deck);
 

@@ -41,6 +41,17 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        EditDeckManager.instance.addChosenCard(card);
+
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Debug.Log(cardName + " Game Object Left Clicked!");
+            EditDeckManager.instance.AddChosenCard(card);
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log(cardName + " Game Object Right Clicked!");
+            EditDeckManager.instance.RemoveChosenCard(card);
+        }
     }
 }

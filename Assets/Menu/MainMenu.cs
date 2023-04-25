@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame ()
     {
-        CardManager.instance.cards = EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
