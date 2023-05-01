@@ -14,6 +14,7 @@ public class CardManager : MonoBehaviour
     public CardController cardControllerPrefab;
     public List<CardController> player1Cards = new List<CardController>(),
         player2Cards = new List<CardController>();
+    public bool mulliganPhase = true;
 
 
     private void Awake()
@@ -36,14 +37,16 @@ public class CardManager : MonoBehaviour
             newCard.Initialize(card, ID, ID == 0 ? player1Hand : player2Hand);
         });
 
-        
     }
 
     private void Start()
     {
+
+        Debug.Log("Entering game mode ...");
         GenerateCards();
     }
 
+    
     private void GenerateCards()
     {
         foreach (Card card in player1Deck.StartHand())
@@ -51,12 +54,75 @@ public class CardManager : MonoBehaviour
             CardController newCard = Instantiate(cardControllerPrefab, player1Hand.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card, 0, player1Hand);
+            player1Cards.Add(newCard);
         }
         foreach (Card card in player2Deck.StartHand())
         {
             CardController newCard = Instantiate(cardControllerPrefab, player2Hand.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card, 1, player2Hand);
+            player2Cards.Add(newCard);
+        }
+
+        if(mulliganPhase)
+        {
+
+            Debug.Log("Mulligan phase");
+            //her fjerner player 1 de kort han ikke gider have på starthånden
+            player1Button.onClick.AddListener(() =>
+            {
+                foreach (CardController card in player1Cards)
+                {
+                    Destroy(card.gameObject);
+                }
+                //skal nok ikke bruge clear her, det fjerner jo alle kort???? :( 
+                player1Cards.Clear();
+
+                //træk nye cards:
+                for (int i = 0; i < player1Deck.StartHand().Count; i++)
+                {
+                    Card newCard = player1Deck.DrawCard();
+                    CardController newCardController = Instantiate(cardControllerPrefab, player1Hand.root);
+                    newCardController.transform.localPosition = Vector3.zero;
+                    newCardController.Initialize(newCard, 0, player1Hand);
+                    player1Cards.Add(newCardController);
+                }
+                //skal der tjekkes om begge spillere har mulliganet her?
+                if (player2Cards.Count == player2Deck.StartHand().Count)
+                {
+                    mulliganPhase = false;
+                    Debug.Log("Mulligan phase ended");
+                    //StartGame(); ???????!!!?!?!?!?!?!?!?!?!?!
+                }
+            });
+            //player 2 fjerner uønskede kort fra starthånden:
+            player2Button.onClick.AddListener(() =>
+            {
+                foreach (CardController card in player2Cards)
+                {
+                    Destroy(card.gameObject);
+                }
+                //skal nok ikke bruge clear her, det fjerner jo alle kort??? :( 
+                player2Cards.Clear();
+
+                //træk nye kort
+                for (int i = 0; i < player1Deck.StartHand().Count; i++)
+                {
+                    Card newCard = player1Deck.DrawCard();
+                    CardController newCardController = Instantiate(cardControllerPrefab, player1Hand.root);
+                    newCardController.transform.localPosition = Vector3.zero;
+                    newCardController.Initialize(newCard, 0, player1Hand);
+                    player1Cards.Add(newCardController);
+                }
+                // tjek om begge har mulliganet igen?
+                if(player1Cards.Count == player1Deck.StartHand().Count)
+                {
+                    mulliganPhase=false;
+                    Debug.Log("Mulligan phase ended");
+                    //startgame ... how the fuck do I do this?
+                }
+
+            });
         }
     }
 
