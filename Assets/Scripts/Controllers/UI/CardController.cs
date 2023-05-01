@@ -29,6 +29,16 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 this.card.ownerID = ownerID;
             };
         }
+
+        if (card.GetType() == typeof(ItemCard))
+        {
+            var item = (ItemCard)card;
+
+            this.card = new ItemCard(card, item.healAmount);
+            {
+                this.card.ownerID = ownerID;
+            };
+        }
         else
         {
             this.card = new Card(card)

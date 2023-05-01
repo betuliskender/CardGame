@@ -66,11 +66,11 @@ public class CardManager : MonoBehaviour
     {
         if (ID == 0)
         {
-            Debug.Log(card.card.GetType() == typeof(SpellCard));
-            if(card.card.GetType() == typeof(SpellCard))
+            Debug.Log(card.card.GetType().GetInterface("IInstant"));
+            if(card.card.GetType() == typeof(IInstant))
             {
-                var spell = (SpellCard)card.card;
-                spell.Instant();
+                var instant = (IInstant)card.card;
+                instant.Instant();
             }
             player1Cards.Add(card);
         }
