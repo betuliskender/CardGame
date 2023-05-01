@@ -22,10 +22,20 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     
     public void Initialize(Card card, int ownerID, Transform intendedParent)
     {
-        this.card = new Card(card)
+        if (card.GetType() == typeof(SpellCard))
+        {
+            this.card = new SpellCard(card);
+            {
+                this.card.ownerID = ownerID;
+            };
+        }
+        else
+        {
+            this.card = new Card(card)
         {
             ownerID = ownerID
         };
+        }
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
@@ -51,17 +61,17 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("MouseEnter");
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("MouseExit");
+       
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerEnter);
+        
         if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             transform.DOShakeScale(0.35f, 0.5f, 5);
@@ -75,7 +85,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerEnter);
+        
         if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
 
@@ -129,7 +139,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerEnter.name);
+        
         if (transform.parent == originalParent) return;
         transform.position = eventData.position;
     }

@@ -13,6 +13,7 @@ public class EditDeckManager : MonoBehaviour
    
     public Dictionary<Card, int> chosenCards = new Dictionary<Card, int>();
     public List<Card> cards = new List<Card>();
+    public List<SpellCard> spellCards = new List<SpellCard>();
     public CardPreviewController cardControllerPrefab;
     private bool customDeck = false;
     public Button confirmbutton;
@@ -38,6 +39,15 @@ public class EditDeckManager : MonoBehaviour
         var gridContent = GameObject.Find("AvailableCardsGrid");
 
         foreach (Card card in cards)
+        {
+
+            CardPreviewController newCard = Instantiate(cardControllerPrefab, gridContent.transform.root);
+            newCard.transform.localPosition = Vector3.zero;
+            newCard.Initialize(card, 1, gridContent.transform);
+
+        }
+
+        foreach (Card card in spellCards)
         {
 
             CardPreviewController newCard = Instantiate(cardControllerPrefab, gridContent.transform.root);

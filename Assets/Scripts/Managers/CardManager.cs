@@ -8,6 +8,7 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
     public List<Card> cards = new List<Card>();
+    
     public Deck player1Deck, player2Deck;
     public Transform player1Hand, player2Hand;
     public Button player1Button, player2Button;
@@ -65,6 +66,12 @@ public class CardManager : MonoBehaviour
     {
         if (ID == 0)
         {
+            Debug.Log(card.card.GetType() == typeof(SpellCard));
+            if(card.card.GetType() == typeof(SpellCard))
+            {
+                var spell = (SpellCard)card.card;
+                spell.Instant();
+            }
             player1Cards.Add(card);
         }
         else

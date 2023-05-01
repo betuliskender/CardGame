@@ -19,10 +19,20 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
 
     public void Initialize(Card card, int ownerID, Transform intendedParent)
     {
-        this.card = new Card(card)
+        if (card.GetType() == typeof(SpellCard))
         {
-            ownerID = ownerID
-        };
+            this.card = new SpellCard(card);
+            {
+                this.card.ownerID = ownerID;
+            };
+        }
+        else
+        {
+            this.card = new Card(card)
+            {
+                ownerID = ownerID
+            };
+        }
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
@@ -39,18 +49,20 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
     }
 
     
+
+    
     public void OnPointerClick(PointerEventData eventData)
     {
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log(cardName + " Game Object Left Clicked!");
+           
             EditDeckManager.instance.AddChosenCard(card);
         }
 
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log(cardName + " Game Object Right Clicked!");
+            
             EditDeckManager.instance.RemoveChosenCard(card);
         }
     }
