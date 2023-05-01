@@ -17,12 +17,16 @@ public class PlayerManager : MonoBehaviour
         UIManager.instance.UpdateValues(playerList[0], playerList[1]);
     }
 
-    internal void AssignTurn(int currentPlayerTurn)
+    internal void AssignTurn(int currentPlayerTurn, int currentTurn)
     {
         foreach (Player player in playerList)
         {
             player.myTurn = player.ID == currentPlayerTurn;
-            if (player.myTurn) player.mana = 10;
+            if (player.myTurn && player.ID == 0 || player.ID == 1)
+            {
+                player.mana = currentTurn;
+                UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
+            }
         }
     }
 
