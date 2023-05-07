@@ -5,6 +5,7 @@ public interface IDamageable
 
 public interface IDamage
 {
+   
     int Damage ();
 }
 
@@ -15,5 +16,5 @@ public interface IInstant
 
 public interface IHeal
 {
-    int Heal(int playerHealth);
+    int Heal();
 }

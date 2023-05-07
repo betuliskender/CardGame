@@ -28,7 +28,8 @@ public class TurnManager : MonoBehaviour
     {
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn);
-        CardManager.instance.ProcessStartTurn(currentPlayerTurn);
+        //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
+        CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1Cards, CardManager.instance.player2Cards);
 
     }
 

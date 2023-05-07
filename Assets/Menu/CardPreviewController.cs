@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System;
+
 
 public class CardPreviewController : MonoBehaviour, IPointerClickHandler
 {
@@ -12,6 +14,7 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
 
+
     private void Awake()
     {
         image = GetComponent<Image>();
@@ -19,20 +22,8 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
 
     public void Initialize(Card card, int ownerID, Transform intendedParent)
     {
-        if (card.GetType() == typeof(SpellCard))
-        {
-            this.card = new SpellCard(card);
-            {
-                this.card.ownerID = ownerID;
-            };
-        }
-        else
-        {
-            this.card = new Card(card)
-            {
-                ownerID = ownerID
-            };
-        }
+       this.card = CastCardType(card, ownerID);
+
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
@@ -48,9 +39,41 @@ public class CardPreviewController : MonoBehaviour, IPointerClickHandler
         if (card.health == 0) health.text = "";
     }
 
-    
+    private Card CastCardType(Card card, int ownerID)
+    {
+        if (card.GetType() == typeof(SpellCard))
+        {
+            SpellCard spellCard = (SpellCard)card;
 
-    
+            spellCard.ownerID = ownerID;
+
+            return spellCard;
+
+        }
+
+        if (card.GetType() == typeof(ItemCard))
+        {
+            ItemCard itemCard = (ItemCard)card;
+
+
+            itemCard.ownerID = ownerID;
+
+            return itemCard;
+        }
+
+
+        
+            card = new Card(card)
+            {
+                ownerID = ownerID
+
+            };
+
+        return card;
+    }
+
+
+
     public void OnPointerClick(PointerEventData eventData)
     {
 

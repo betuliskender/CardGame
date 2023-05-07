@@ -14,38 +14,23 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image illustration, image;
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
+    public event Action CardAction;
 
     private void Awake()
     {
         image = GetComponent<Image>();
     }
+
+    public void ActionCall()
+    {
+        CardAction?.Invoke();
+        
+    }
     
     public void Initialize(Card card, int ownerID, Transform intendedParent)
     {
-        if (card.GetType() == typeof(SpellCard))
-        {
-            this.card = new SpellCard(card);
-            {
-                this.card.ownerID = ownerID;
-            };
-        }
+       this.card = ManageCardActions(card, ownerID);
 
-        if (card.GetType() == typeof(ItemCard))
-        {
-            var item = (ItemCard)card;
-
-            this.card = new ItemCard(card, item.healAmount);
-            {
-                this.card.ownerID = ownerID;
-            };
-        }
-        else
-        {
-            this.card = new Card(card)
-        {
-            ownerID = ownerID
-        };
-        }
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
@@ -61,7 +46,41 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (card.health == 0) health.text = "";
     }
 
+    private Card ManageCardActions(Card card, int ownerID)
+    {
+        if (card.GetType() == typeof(SpellCard))
+        {
+            
+            SpellCard sc = (SpellCard)card;
+            SpellCard spellCard = new SpellCard(card, sc.SpellPower);
+            spellCard.ownerID = ownerID;
 
+            CardAction += spellCard.Instant;
+
+            return spellCard;
+        }
+
+        if (card.GetType() == typeof(ItemCard))
+        {
+            ItemCard ic = (ItemCard)card;
+
+            ItemCard itemCard = new ItemCard(card, ic.healAmount);
+            itemCard.ownerID = ownerID;
+            
+            CardAction += itemCard.Instant;
+
+            return itemCard;
+        }
+        
+            this.card = new Card(card)
+            {
+                ownerID = ownerID
+            };
+            CardAction += this.card.CardActionTest;
+
+             return this.card;
+        
+    }
 
     public void Damage(int amount)
     {

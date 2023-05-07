@@ -17,13 +17,15 @@ public class ItemCard : Card, IHeal, IInstant
 
     }
 
-    public int Heal(int playerHealth)
+    public int Heal()
     {
-        return playerHealth + healAmount;
+        return healAmount;
     }
 
     public void Instant()
     {
-        Debug.Log("HEAL");
+        base.CardActionTest();
+        Debug.Log($"HEAL: {healAmount} cardName: {cardName}");
+        PlayerManager.instance.HealPlayer(ownerID, Heal());
     }
 }

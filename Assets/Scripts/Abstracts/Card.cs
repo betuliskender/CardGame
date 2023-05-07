@@ -19,6 +19,12 @@ public class Card
         damage = card.damage;
         manaCost = card.manaCost;
         illustration = card.illustration;
+
+    }
+
+    public void CardActionTest()
+    {
+        Debug.Log($"Dette er fra base kortet {this.cardName}");
     }
 
 }
