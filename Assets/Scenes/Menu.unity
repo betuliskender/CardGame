@@ -5745,55 +5745,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards:
-  - cardName: Kort1
+  - cardName: Aberration
+    health: 5
+    damage: 3
+    manaCost: 4
+    ownerID: -1
+    illustration: {fileID: 21300000, guid: 78036528818570842989e87c2efe1c46, type: 3}
+  - cardName: Beast
     health: 1
     damage: 1
     manaCost: 1
     ownerID: -1
-    illustration: {fileID: 21300000, guid: 78036528818570842989e87c2efe1c46, type: 3}
-  - cardName: Kort2
-    health: 1
-    damage: 1
-    manaCost: 1
-    ownerID: 0
     illustration: {fileID: 21300000, guid: 5abe16512f5683a49904364cc3f44154, type: 3}
-  - cardName: Kort23
+  - cardName: Byakhee
     health: 1
-    damage: 1
+    damage: 2
     manaCost: 1
-    ownerID: 0
+    ownerID: -1
     illustration: {fileID: 21300000, guid: fcc762d85a70bd64d92598013136de4b, type: 3}
-  - cardName: Kort235
+  - cardName: Ghoul Cultust
     health: 1
-    damage: 1
-    manaCost: 1
+    damage: 3
+    manaCost: 2
+    ownerID: -1
+    illustration: {fileID: 21300000, guid: 230bbd0f929794349ac43ed577ac0804, type: 3}
+  - cardName: Ghoul
+    health: 2
+    damage: 2
+    manaCost: 3
     ownerID: 0
-    illustration: {fileID: 21300000, guid: c60844db3af328b46a965bdcebb55454, type: 3}
-  - cardName: Kort6
-    health: 1
-    damage: 1
-    manaCost: 1
-    ownerID: 0
+    illustration: {fileID: 21300000, guid: 0e2b28f235860944aa704f567b8f848b, type: 3}
+  - cardName: Cultist Leader
+    health: 4
+    damage: 2
+    manaCost: 4
+    ownerID: -1
+    illustration: {fileID: 21300000, guid: 9371972651809d440a640e1a442498e4, type: 3}
+  - cardName: Star Spawn
+    health: 6
+    damage: 6
+    manaCost: 7
+    ownerID: -1
     illustration: {fileID: 21300000, guid: d5bad3ee32591f240bb7ad449ef32093, type: 3}
-  - cardName: Kort662
-    health: 1
-    damage: 1
-    manaCost: 1
-    ownerID: 0
-    illustration: {fileID: 21300000, guid: f69484c0fa5eca64f956b9dda4cd74c1, type: 3}
-  - cardName: Kort66
-    health: 1
-    damage: 1
-    manaCost: 1
-    ownerID: 0
-    illustration: {fileID: 21300000, guid: 63d564e5e5afdf1468ea25602b773bfa, type: 3}
   spellCards:
   - cardName: Wither
     health: 0
     damage: 3
     manaCost: 2
     ownerID: -1
-    illustration: {fileID: 21300000, guid: a0ae82b4de89ba445b501c4c0fc106e5, type: 3}
+    illustration: {fileID: 21300000, guid: 1d69720ca7e072240999ef70713fb412, type: 3}
     SpellPower: 3
   itemCards:
   - cardName: Whiskey
