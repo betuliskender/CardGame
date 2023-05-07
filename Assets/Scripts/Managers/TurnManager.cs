@@ -6,6 +6,7 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager instance;
     public int currentPlayerTurn;
+    private int currentTurn = 1;
 
 
     private void Awake()
@@ -27,7 +28,7 @@ public class TurnManager : MonoBehaviour
     public void StartTurn()
     {
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
-        PlayerManager.instance.AssignTurn(currentPlayerTurn);
+        PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
         //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
         CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1Cards, CardManager.instance.player2Cards);
 
@@ -38,7 +39,12 @@ public class TurnManager : MonoBehaviour
         CardManager.instance.ProcessEndTurn(currentPlayerTurn);
         StartCoroutine(WaitForAttacks(currentPlayerTurn == 0 ? CardManager.instance.player1Cards.Count: CardManager.instance.player2Cards.Count));
         currentPlayerTurn = currentPlayerTurn == 0 ? 1 : 0;
-        
+
+        if (currentPlayerTurn == 0)
+        {
+            currentTurn++;
+        }
+
     }
 
     private IEnumerator WaitForAttacks(float cards)
