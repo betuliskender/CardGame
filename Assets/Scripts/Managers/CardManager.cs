@@ -8,7 +8,10 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
     public List<Card> cards = new List<Card>();
+    
     public Deck player1Deck, player2Deck;
+    public Stack<CardController> player1DiscardPile = new Stack<CardController>(), player2DiscardPile = new Stack<CardController>();
+    public Transform player1Discard, player2Discard;
     public Transform player1Hand, player2Hand;
     public Button player1Button, player2Button;
     public CardController cardControllerPrefab;
@@ -66,87 +69,72 @@ public class CardManager : MonoBehaviour
     {
         if (ID == 0)
         {
+            
+               
             player1Cards.Add(card);
         }
         else
         {
             player2Cards.Add(card);
         }
+
+        card.ActionCall();
     }
 
-    public void ProcessStartMulligan()
+    public void DiscardCard(CardController card)
     {
+        
+            CardController newCard = Instantiate(cardControllerPrefab, card.card.ownerID == 0 ? player1Discard.root : player1Discard.root);
+            newCard.transform.localPosition = Vector3.zero;
+            newCard.Initialize(card.card, card.card.ownerID, card.card.ownerID == 0 ? player1Discard : player2Discard);
+
+            player1DiscardPile.Push(newCard);
+            Debug.Log(player1DiscardPile.Count);
+            Destroy(card.gameObject);
+
+
+       
 
     }
 
-    public void ProcessEndMulligan()
+    public void ProcessCardsAtStartTurn(List<CardController> Player1Cards, List<CardController> Player2Cards)
     {
-        Debug.Log("MULLIGAN ENDED");
-        mulliganManager.DrawMulliganCards();
+        List<CardController> Player1RemainingCards = new List<CardController>();
+        List<CardController> Player2RemainingCards = new List<CardController>();
+
+        Player1RemainingCards.AddRange(CullDeadCards(Player1Cards));
+        Player2RemainingCards.AddRange(CullDeadCards(Player2Cards));
+
+        this.player1Cards.Clear();
+        this.player2Cards.Clear();
+
+        this.player1Cards = Player1RemainingCards;
+        this.player2Cards = Player2RemainingCards;
+
     }
 
-    public void ProcessStartTurn(int ID)
+    public List<CardController> CullDeadCards(List<CardController> cards)
     {
-        List<CardController> cards = new List<CardController>();
-        List<CardController> enemyCards = new List<CardController>();
-        if (ID == 0)
-        {
-            cards.AddRange(player1Cards);
-            enemyCards.AddRange(player2Cards);
-        }
-        else
-        {
-            cards.AddRange(player2Cards);
-            enemyCards.AddRange(player1Cards);
-        }
+        List<CardController> remainingCards = new List<CardController>();
+
         foreach (CardController card in cards)
         {
             if (card == null) continue;
             if (card.card.health <= 0)
             {
+                DiscardCard(card);
                 Destroy(card.gameObject);
             }
-        }
-        foreach (CardController card in enemyCards)
-        {
-            if (card.card.health <= 0)
+
+            if(card != null)
             {
-                Destroy(card.gameObject);
+                remainingCards.Add(card);
             }
         }
 
-        player1Cards.Clear();
-        player2Cards.Clear();
-
-        foreach (CardController card in cards)
-        {
-            if (card != null)
-            {
-                if (ID == 0)
-                {
-                    player1Cards.Add(card);
-                }
-                else
-                {
-                    player2Cards.Add(card);
-                }
-            }
-        }
-        foreach (CardController card in enemyCards)
-        {
-            if (card != null)
-            {
-                if (ID == 1)
-                {
-                    player1Cards.Add(card);
-                }
-                else
-                {
-                    player2Cards.Add(card);
-                }
-            }
-        }
+        return remainingCards;
     }
+
 
     public void ProcessEndTurn(int ID)
     {

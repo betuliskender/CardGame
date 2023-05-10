@@ -13,7 +13,7 @@ public class Deck
 
     public Deck(List<Card> cardList)
     {
-        Debug.Log(cardList);
+       
         var shuffledDeck = ShuffleDeck(cardList);
         CreateDeck(shuffledDeck);
     }

@@ -29,11 +29,9 @@ public class TurnManager : MonoBehaviour
     {
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
-        if (mulliganPhase)
-        {
-            CardManager.instance.ProcessEndMulligan();
-        }
-            CardManager.instance.ProcessStartTurn(currentPlayerTurn);
+        //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
+        CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1Cards, CardManager.instance.player2Cards);
+
     }
 
     public void EndTurn()

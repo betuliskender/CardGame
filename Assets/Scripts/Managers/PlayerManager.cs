@@ -43,6 +43,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void HealPlayer(int ID, int healAmount)
+    {
+        Player player = FindPlayerByID(ID);
+        player.health += healAmount;
+        UIManager.instance.UpdateHealthValues(playerList[0].health, playerList[1].health);
+
+
+    }
+
     private void PlayerLost(int ID)
     {
         UIManager.instance.GameFinished(ID == 0 ? FindPlayerByID(1) : FindPlayerByID(0));
