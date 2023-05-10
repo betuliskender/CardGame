@@ -67,9 +67,7 @@ public class CardManager : MonoBehaviour
     public void PlayCard(CardController card, int ID)
     {
         if (ID == 0)
-        {
-            
-               
+        {   
             player1Cards.Add(card);
         }
         else
@@ -83,16 +81,13 @@ public class CardManager : MonoBehaviour
     public void DiscardCard(CardController card)
     {
         
-            CardController newCard = Instantiate(cardControllerPrefab, card.card.ownerID == 0 ? player1Discard.root : player1Discard.root);
+            CardController newCard = Instantiate(cardControllerPrefab, card.card.ownerID == 0 ? player1Discard.root : player2Discard.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card.card, card.card.ownerID, card.card.ownerID == 0 ? player1Discard : player2Discard);
 
             player1DiscardPile.Push(newCard);
             Debug.Log(player1DiscardPile.Count);
             Destroy(card.gameObject);
-
-
-       
 
     }
 
@@ -122,7 +117,7 @@ public class CardManager : MonoBehaviour
             if (card.card.health <= 0)
             {
                 DiscardCard(card);
-                Destroy(card.gameObject);
+                //Destroy(card.gameObject);
             }
 
             if(card != null)
@@ -135,50 +130,58 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void ProcessEndTurn(int ID)
+    public void ProcessEndTurn(List<CardController> attackingPlayerCards, List<CardController> enemyPlayerCards)
     {
         List<CardController> cards = new List<CardController>();
         List<CardController> enemyCards = new List<CardController>();
-        if (ID == 0)
-        {
-            cards.AddRange(player1Cards);
-            enemyCards.AddRange(player2Cards);
-        }
-        else
-        {
-            cards.AddRange(player2Cards);
-            enemyCards.AddRange(player1Cards);
-        }
+        
+            cards.AddRange(attackingPlayerCards);
+            enemyCards.AddRange(enemyPlayerCards);
+        
         foreach (CardController cardController in cards)
         {
             if (cardController == null) continue;
-            if (AreThereCardsWithHealth(enemyCards))
-            {
-                int randomEnemyCard = Random.Range(0, enemyCards.Count);
-                while (enemyCards[randomEnemyCard].card.health <= 0)
-                {
-                    randomEnemyCard = Random.Range(0, enemyCards.Count);
-                }
-                enemyCards[randomEnemyCard].Damage(cardController.card.damage);
-                cardController.transform.SetParent(cardController.transform.root);
-                cardController.transform.DOMove(enemyCards[randomEnemyCard].transform.position, 0.35f, true).onComplete += () =>
-                {
-                    cardController.ReturnToHand();
-                };
-                cardController.Damage(enemyCards[randomEnemyCard].card.damage);
-            }
-            else
-            {
-                int enemyID = ID == 0 ? 1 : 0;
-                cardController.transform.SetParent(cardController.transform.root);
-                cardController.transform.DOMove(ID == 0 ? player2Hand.transform.position : player1Hand.transform.position, 0.35f, true).onComplete += () =>
-                {
-                    cardController.ReturnToHand();
-                };
-                PlayerManager.instance.DamagePlayer(enemyID, cardController.card.damage);
-            }
-
+            AttackEnemyPlayer(enemyCards, cardController);
         }
+    }
+
+    private void AttackEnemyPlayer(List<CardController> enemyCards, CardController cardController)
+    {
+        if (AreThereCardsWithHealth(enemyCards))
+        {
+            AttackCards(enemyCards, cardController);
+        }
+        else
+        {
+            AttackPlayer(cardController);
+        }
+    }
+
+    private void AttackPlayer(CardController cardController)
+    {
+        int enemyID = cardController.card.ownerID == 0 ? 1 : 0;
+        cardController.transform.SetParent(cardController.transform.root);
+        cardController.transform.DOMove(cardController.card.ownerID == 0 ? player2Hand.transform.position : player1Hand.transform.position, 0.35f, true).onComplete += () =>
+        {
+            cardController.ReturnToHand();
+        };
+        PlayerManager.instance.DamagePlayer(enemyID, cardController.card.damage);
+    }
+
+    private static void AttackCards(List<CardController> enemyCards, CardController cardController)
+    {
+        int randomEnemyCard = Random.Range(0, enemyCards.Count);
+        while (enemyCards[randomEnemyCard].card.health <= 0)
+        {
+            randomEnemyCard = Random.Range(0, enemyCards.Count);
+        }
+        enemyCards[randomEnemyCard].Damage(cardController.card.damage);
+        cardController.transform.SetParent(cardController.transform.root);
+        cardController.transform.DOMove(enemyCards[randomEnemyCard].transform.position, 0.35f, true).onComplete += () =>
+        {
+            cardController.ReturnToHand();
+        };
+        cardController.Damage(enemyCards[randomEnemyCard].card.damage);
     }
 
     private bool AreThereCardsWithHealth(List<CardController> cards)
