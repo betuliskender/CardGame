@@ -14,7 +14,8 @@ public class CardManager : MonoBehaviour
     public CardController cardControllerPrefab;
     public List<CardController> player1Cards = new List<CardController>(),
         player2Cards = new List<CardController>();
-
+    public MulliganManager mulliganManager;
+   
 
     private void Awake()
     {
@@ -71,6 +72,17 @@ public class CardManager : MonoBehaviour
         {
             player2Cards.Add(card);
         }
+    }
+
+    public void ProcessStartMulligan()
+    {
+
+    }
+
+    public void ProcessEndMulligan()
+    {
+        Debug.Log("MULLIGAN ENDED");
+        mulliganManager.DrawMulliganCards();
     }
 
     public void ProcessStartTurn(int ID)

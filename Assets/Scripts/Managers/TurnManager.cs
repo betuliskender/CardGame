@@ -7,7 +7,7 @@ public class TurnManager : MonoBehaviour
     public static TurnManager instance;
     public int currentPlayerTurn;
     private int currentTurn = 1;
-
+    public bool mulliganPhase = true;
 
     private void Awake()
     {
@@ -29,8 +29,11 @@ public class TurnManager : MonoBehaviour
     {
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
-        CardManager.instance.ProcessStartTurn(currentPlayerTurn);
-
+        if (mulliganPhase)
+        {
+            CardManager.instance.ProcessEndMulligan();
+        }
+            CardManager.instance.ProcessStartTurn(currentPlayerTurn);
     }
 
     public void EndTurn()
