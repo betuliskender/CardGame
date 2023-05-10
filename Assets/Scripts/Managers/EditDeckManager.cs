@@ -152,6 +152,10 @@ public class EditDeckManager : MonoBehaviour
         defaultCards.Add(cards[1]);
         defaultCards.Add(cards[2]);
         defaultCards.Add(cards[2]);
+        defaultCards.Add(cards[3]);
+        defaultCards.Add(cards[3]);
+        defaultCards.Add(cards[4]);
+        defaultCards.Add(cards[4]);
 
         return defaultCards;
     }
