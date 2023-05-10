@@ -30,14 +30,14 @@ public class TurnManager : MonoBehaviour
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
         //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
-        CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1Cards, CardManager.instance.player2Cards);
+        CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1ActiveCards, CardManager.instance.player2ActiveCards);
 
     }
 
     public void EndTurn()
     {
         CardManager.instance.ProcessEndTurn(currentPlayerTurn);
-        StartCoroutine(WaitForAttacks(currentPlayerTurn == 0 ? CardManager.instance.player1Cards.Count: CardManager.instance.player2Cards.Count));
+        StartCoroutine(WaitForAttacks(currentPlayerTurn == 0 ? CardManager.instance.player1ActiveCards.Count: CardManager.instance.player2ActiveCards.Count));
         currentPlayerTurn = currentPlayerTurn == 0 ? 1 : 0;
 
         if (currentPlayerTurn == 0)

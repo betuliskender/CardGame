@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,13 +13,14 @@ public class CardManager : MonoBehaviour
     public Deck player1Deck, player2Deck;
     public Stack<CardController> player1DiscardPile = new Stack<CardController>(), player2DiscardPile = new Stack<CardController>();
     public Transform player1Discard, player2Discard;
-    public Transform player1Hand, player2Hand;
+    public Transform player1HandArea, player2HandArea;
     public Button player1Button, player2Button;
     public CardController cardControllerPrefab;
-    public List<CardController> player1Cards = new List<CardController>(),
-        player2Cards = new List<CardController>();
-    public MulliganManager mulliganManager;
-   
+    public List<CardController> player1ActiveCards = new List<CardController>(),
+        player2ActiveCards = new List<CardController>();
+    public List<CardController> player1Hand= new List<CardController>(),
+        player2Hand = new List<CardController>();
+
 
     private void Awake()
     {
@@ -26,8 +28,8 @@ public class CardManager : MonoBehaviour
         //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
         player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
         player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
-        SetupButton(player1Button, player1Hand, 0, player1Deck);
-        SetupButton(player2Button, player2Hand, 1, player2Deck);
+        SetupButton(player1Button, player1HandArea, 0, player1Deck);
+        SetupButton(player2Button, player2HandArea, 1, player2Deck);
 
     }
 
@@ -38,30 +40,33 @@ public class CardManager : MonoBehaviour
             var card = deck.DrawCard();
             CardController newCard = Instantiate(cardControllerPrefab, hand.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, ID, ID == 0 ? player1Hand : player2Hand);
+            newCard.Initialize(card, ID, ID == 0 ? player1HandArea : player2HandArea);
         });
 
-        
+      
     }
 
     private void Start()
     {
-        GenerateCards();
+      
     }
 
-    private void GenerateCards()
+    public void GenerateCards(Transform player1MulliganArea, Transform player2MulliganArea)
     {
         foreach (Card card in player1Deck.StartHand())
         {
-            CardController newCard = Instantiate(cardControllerPrefab, player1Hand.root);
+            CardController newCard = Instantiate(cardControllerPrefab, player1MulliganArea.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 0, player1Hand);
+            newCard.Initialize(card, 0, player1MulliganArea);
+            player1Hand.Add(newCard);
+            Debug.Log(player1Hand.Count);
         }
         foreach (Card card in player2Deck.StartHand())
         {
-            CardController newCard = Instantiate(cardControllerPrefab, player2Hand.root);
+            CardController newCard = Instantiate(cardControllerPrefab, player2MulliganArea.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 1, player2Hand);
+            newCard.Initialize(card, 1, player2MulliganArea);
+            player2Hand.Add(newCard);
         }
     }
 
@@ -71,11 +76,11 @@ public class CardManager : MonoBehaviour
         {
             
                
-            player1Cards.Add(card);
+            player1ActiveCards.Add(card);
         }
         else
         {
-            player2Cards.Add(card);
+            player2ActiveCards.Add(card);
         }
 
         card.ActionCall();
@@ -105,11 +110,11 @@ public class CardManager : MonoBehaviour
         Player1RemainingCards.AddRange(CullDeadCards(Player1Cards));
         Player2RemainingCards.AddRange(CullDeadCards(Player2Cards));
 
-        this.player1Cards.Clear();
-        this.player2Cards.Clear();
+        this.player1ActiveCards.Clear();
+        this.player2ActiveCards.Clear();
 
-        this.player1Cards = Player1RemainingCards;
-        this.player2Cards = Player2RemainingCards;
+        this.player1ActiveCards = Player1RemainingCards;
+        this.player2ActiveCards = Player2RemainingCards;
 
     }
 
@@ -142,13 +147,13 @@ public class CardManager : MonoBehaviour
         List<CardController> enemyCards = new List<CardController>();
         if (ID == 0)
         {
-            cards.AddRange(player1Cards);
-            enemyCards.AddRange(player2Cards);
+            cards.AddRange(player1ActiveCards);
+            enemyCards.AddRange(player2ActiveCards);
         }
         else
         {
-            cards.AddRange(player2Cards);
-            enemyCards.AddRange(player1Cards);
+            cards.AddRange(player2ActiveCards);
+            enemyCards.AddRange(player1ActiveCards);
         }
         foreach (CardController cardController in cards)
         {
@@ -172,7 +177,7 @@ public class CardManager : MonoBehaviour
             {
                 int enemyID = ID == 0 ? 1 : 0;
                 cardController.transform.SetParent(cardController.transform.root);
-                cardController.transform.DOMove(ID == 0 ? player2Hand.transform.position : player1Hand.transform.position, 0.35f, true).onComplete += () =>
+                cardController.transform.DOMove(ID == 0 ? player2HandArea.transform.position : player1HandArea.transform.position, 0.35f, true).onComplete += () =>
                 {
                     cardController.ReturnToHand();
                 };
