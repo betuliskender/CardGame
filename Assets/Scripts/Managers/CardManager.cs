@@ -53,6 +53,8 @@ public class CardManager : MonoBehaviour
 
     public void GenerateCards(Transform player1MulliganArea, Transform player2MulliganArea)
     {
+            player1Hand.Clear();
+            player2Hand.Clear();
         foreach (Card card in player1Deck.StartHand())
         {
             CardController newCard = Instantiate(cardControllerPrefab, player1MulliganArea.root);

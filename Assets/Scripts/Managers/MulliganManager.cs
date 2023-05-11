@@ -16,30 +16,36 @@ public class MulliganManager : MonoBehaviour
     void Start()
     {
         CardManager.instance.GenerateCards(player1HandArea, player2HandArea);
-        SetupButton(player1Button, CardManager.instance.player1Hand);
+        SetupButton(player1Button, CardManager.instance.player1Hand, CardManager.instance.player2Hand);
     }
-    private void SetupButton(Button button, List<CardController> cards)
+    private void SetupButton(Button button, List<CardController> cards1, List<CardController> cards2)
     {
-        List<CardController> tempCards = new();
-        tempCards.AddRange(cards);
-        Debug.Log("BEFORE SHUFFLE" + CardManager.instance.player1Deck.cardStack.Count);
+        List<CardController> tempCardsPlayer1 = new();
+        List<CardController> tempCardsPlayer2 = new();
+
+        tempCardsPlayer1.AddRange(cards1);
+        tempCardsPlayer2.AddRange(cards2);
 
         button.onClick.AddListener(() =>
         {
-            Debug.Log("CLICKED ON SWAP");
             foreach (Transform child in player1HandArea.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
-            // tempCards.ForEach((card) =>
-            //{
-            //   Destroy(card.gameObject);
-            //});
+            foreach (Transform child in player2HandArea.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
             CardManager.instance.GenerateCards(player1HandArea, player2HandArea);
-            CardManager.instance.player1Hand.Clear();
-            CardManager.instance.player1Hand = tempCards;
-            CardManager.instance.player1Deck.ReShuffleCards(tempCards);
-            Debug.Log("AFTER SHUFFLE" + CardManager.instance.player1Deck.cardStack.Count);
+            CardManager.instance.player1Hand = tempCardsPlayer1;
+            CardManager.instance.player2Hand = tempCardsPlayer2;
+            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+            CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer1);
+            CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer2);
+            Debug.Log(tempCardsPlayer1.Count + " " + tempCardsPlayer2.Count);
+            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+            player1HandArea.transform.SetParent(CardManager.instance.player1HandArea);
+            player2HandArea.transform.SetParent(CardManager.instance.player2HandArea);
         });
 
     }
