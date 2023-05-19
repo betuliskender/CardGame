@@ -24,12 +24,7 @@ public class CardManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-        //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
-        player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
-        player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
-        SetupButton(player1Button, player1HandArea, 0, player1Deck);
-        SetupButton(player2Button, player2HandArea, 1, player2Deck);
+       
 
     }
 
@@ -37,6 +32,7 @@ public class CardManager : MonoBehaviour
     {
         button.onClick.AddListener(() =>
         {
+            Debug.Log(deck.cardStack.Count);
             var card = deck.DrawCard();
             CardController newCard = Instantiate(cardControllerPrefab, hand.root);
             newCard.transform.localPosition = Vector3.zero;
@@ -48,28 +44,27 @@ public class CardManager : MonoBehaviour
 
     private void Start()
     {
-      
+        instance = this;
+        //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
+        player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
+        player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
+        SetupButton(player1Button, player1HandArea, 0, player1Deck);
+        SetupButton(player2Button, player2HandArea, 1, player2Deck);
     }
 
-    public void GenerateCards(Transform player1MulliganArea, Transform player2MulliganArea)
+    public void GenerateCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck)
     {
-            player1Hand.Clear();
-            player2Hand.Clear();
-        foreach (Card card in player1Deck.StartHand())
+            playerHand.Clear();
+           
+        foreach (Card card in deck.StartHand())
         {
-            CardController newCard = Instantiate(cardControllerPrefab, player1MulliganArea.root);
+            CardController newCard = Instantiate(cardControllerPrefab, playerMulliganArea.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 0, player1MulliganArea);
-            player1Hand.Add(newCard);
-            Debug.Log(player1Hand.Count);
+            newCard.Initialize(card, 0, playerMulliganArea);
+            playerHand.Add(newCard);
+            Debug.Log(playerHand.Count);
         }
-        foreach (Card card in player2Deck.StartHand())
-        {
-            CardController newCard = Instantiate(cardControllerPrefab, player2MulliganArea.root);
-            newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 1, player2MulliganArea);
-            player2Hand.Add(newCard);
-        }
+      
     }
 
     public void PlayCard(CardController card, int ID)

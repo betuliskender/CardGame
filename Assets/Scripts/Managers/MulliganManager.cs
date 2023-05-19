@@ -5,55 +5,94 @@ using UnityEngine.UI;
 
 public class MulliganManager : MonoBehaviour
 {
-    public bool mulliganPhase = true;
-    public List<Card> mulliganedCards = new List<Card>();
     public Transform player1HandArea, player2HandArea;
-    public Button player1Button, player2Button;
-
+    public Button player1Button, player2Button, endMulligan;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        CardManager.instance.GenerateCards(player1HandArea, player2HandArea);
-        SetupButton(player1Button, CardManager.instance.player1Hand, CardManager.instance.player2Hand);
+        CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
+        CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
+        SetupButton(player1Button, CardManager.instance.player1Hand, player1HandArea, 1);
+        SetupButton(player2Button, CardManager.instance.player2Hand, player2HandArea, 2);
+        ChangeScene(endMulligan);
     }
-    private void SetupButton(Button button, List<CardController> cards1, List<CardController> cards2)
-    {
-        List<CardController> tempCardsPlayer1 = new();
-        List<CardController> tempCardsPlayer2 = new();
 
-        tempCardsPlayer1.AddRange(cards1);
-        tempCardsPlayer2.AddRange(cards2);
+    private void ChangeScene(Button button)
+    {
+        button.onClick.AddListener(() =>
+        {
+            transformParent();
+        });
+    }
+
+    private void SetupButton(Button button, List<CardController> cards, Transform playerHandArea, int player)
+    {
+        
 
         button.onClick.AddListener(() =>
         {
-            foreach (Transform child in player1HandArea.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-            foreach (Transform child in player2HandArea.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-            CardManager.instance.GenerateCards(player1HandArea, player2HandArea);
-            CardManager.instance.player1Hand = tempCardsPlayer1;
-            CardManager.instance.player2Hand = tempCardsPlayer2;
-            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
-            CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer1);
-            CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer2);
-            Debug.Log(tempCardsPlayer1.Count + " " + tempCardsPlayer2.Count);
-            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
-            player1HandArea.transform.SetParent(CardManager.instance.player1HandArea);
-            player2HandArea.transform.SetParent(CardManager.instance.player2HandArea);
+            SwapCards(cards, playerHandArea, player);
+            
         });
 
     }
 
- 
+    private void SwapCards(List<CardController> cards, Transform playerHandArea, int player)
+    {
 
-        // Update is called once per frame
-        void Update()
+        List<CardController> tempCardsPlayer = new();
+
+        tempCardsPlayer.AddRange(cards);
+
+        foreach (Transform child in playerHandArea.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        if(player == 1)
+        {
+        CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
+        CardManager.instance.player1Hand = tempCardsPlayer;
+        Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+        CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
+        Debug.Log(tempCardsPlayer.Count);
+        Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+        }
+        if (player == 2)
+        {
+            CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
+            CardManager.instance.player2Hand = tempCardsPlayer;
+            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+            CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
+            Debug.Log(tempCardsPlayer.Count);
+            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
+        }
+    }
+
+    private void transformParent()
+    {
+        foreach (CardController card in CardManager.instance.player1Hand)
+        {
+            card.transform.SetParent(CardManager.instance.player1HandArea.root);
+            card.transform.localPosition = Vector3.zero;
+            card.Initialize(card.card, 0, CardManager.instance.player1HandArea);
+        }
+
+        foreach (CardController card in CardManager.instance.player2Hand)
+        {
+            card.transform.SetParent(CardManager.instance.player2HandArea.root);
+            card.transform.localPosition = Vector3.zero;
+            card.Initialize(card.card, 1, CardManager.instance.player2HandArea);
+        }
+    }
+
+
+
+
+
+    // Update is called once per frame
+    void Update()
     {
         
     }
