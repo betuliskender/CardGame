@@ -42,6 +42,12 @@ public class Deck
         });
         List<Card> cardList = cardStack.ToList();
         ShuffleDeck(cardList);
+        cardStack.Clear();
+        cardList.ForEach((card) =>
+        {
+            cardStack.Push(card);
+        });
+
     }
     public List<Card> ShuffleDeck(List<Card> cardList)
     {

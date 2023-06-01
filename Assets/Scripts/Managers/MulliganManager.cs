@@ -53,20 +53,12 @@ public class MulliganManager : MonoBehaviour
         if(player == 1)
         {
         CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
-        CardManager.instance.player1Hand = tempCardsPlayer;
-        Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
         CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
-        Debug.Log(tempCardsPlayer.Count);
-        Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
         }
         if (player == 2)
         {
             CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
-            CardManager.instance.player2Hand = tempCardsPlayer;
-            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
             CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
-            Debug.Log(tempCardsPlayer.Count);
-            Debug.Log(CardManager.instance.player1Deck.cardStack.Count + " " + CardManager.instance.player2Deck.cardStack.Count);
         }
     }
 
@@ -74,6 +66,7 @@ public class MulliganManager : MonoBehaviour
     {
         foreach (CardController card in CardManager.instance.player1Hand)
         {
+
             card.transform.SetParent(CardManager.instance.player1HandArea.root);
             card.transform.localPosition = Vector3.zero;
             card.Initialize(card.card, 0, CardManager.instance.player1HandArea);
