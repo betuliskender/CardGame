@@ -9,7 +9,7 @@ public class Deck
 {
 
     //public List<Card> cardList = new List<Card>();
-    private Stack<Card> cardStack = new Stack<Card>();
+    public Stack<Card> cardStack = new Stack<Card>();
 
     public Deck(List<Card> cardList)
     {
@@ -34,7 +34,15 @@ public class Deck
             cardStack.Push(card);
         }
     }
-
+    public void ReShuffleCards(List<CardController> cards)
+    {
+        cards.ForEach((card) =>
+        {
+            cardStack.Push(card.card);
+        });
+        List<Card> cardList = cardStack.ToList();
+        ShuffleDeck(cardList);
+    }
     public List<Card> ShuffleDeck(List<Card> cardList)
     {
         for (int i = 0; i < cardList.Count; i++)
