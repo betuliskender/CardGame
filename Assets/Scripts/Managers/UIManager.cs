@@ -2,22 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Unity.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public TextMeshProUGUI player1Health, player2Health, player1Mana, player2Mana;
-    public GameEndUIController gameEndUI;
+    public GameObject playGameUI;
+    public GameObject endGameUI;
+
 
     private void Awake()
     {
         instance = this;
     }
 
-    public void GameFinished(Player winner)
+    public void GameFinished(int winner)
     {
-        gameEndUI.gameObject.SetActive(true);
-        gameEndUI.Initialize(winner);
+        Debug.Log($"HE DED {winner}");
+
+        endGameUI.SetActive(true);
+        GameEndUIController.instance.Initialize(winner);
+
     }
 
     public void UpdateValues(Player player1, Player player2) 

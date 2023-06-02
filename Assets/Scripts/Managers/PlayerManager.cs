@@ -54,7 +54,8 @@ public class PlayerManager : MonoBehaviour
 
     private void PlayerLost(int ID)
     {
-        UIManager.instance.GameFinished(ID == 0 ? FindPlayerByID(1) : FindPlayerByID(0));
+        Debug.Log(ID);
+        UIManager.instance.GameFinished(ID == 0 ? 1 : 0);
     }
 
     public Player FindPlayerByID(int ID)

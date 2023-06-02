@@ -9,11 +9,14 @@ using UnityEditor;
 
 public class GameEndUIController : MonoBehaviour
 {
+    public static GameEndUIController instance;
     public TextMeshProUGUI winnerName;
     public Button restart, quit;
+ 
 
     private void Awake()
     {
+        instance = this;
         SetupButtons();
     }
 
@@ -45,9 +48,9 @@ public class GameEndUIController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void Initialize(Player winner)
+    public void Initialize(int winner)
     {
-        winnerName.text = $"Player: {winner.ID+1} has won!";
+        winnerName.text = $"Player: {winner+1} has won!";
     }
     
 }
