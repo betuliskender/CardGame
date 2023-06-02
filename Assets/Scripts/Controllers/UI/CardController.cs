@@ -16,6 +16,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private Transform originalParent;
     public event Action CardAction;
     private bool isSelected = false;
+    Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
+    private static int amountOfCardsToSwap = 0;
 
     private void Awake()
     {
@@ -101,11 +103,26 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(MulliganManager.isMulliganActive)
+        if (MulliganManager.isMulliganActive)
         {
-            return;
+            if (!isSelected && amountOfCardsToSwap < 3)
+            {
+                isSelected = true;
+                amountOfCardsToSwap++;
+                transform.localScale = selectorScaler2000;
+                transform.SetParent(transform.root);
+                image.raycastTarget = false;
+            }
+            else if (isSelected)
+            {
+                isSelected = false;
+                amountOfCardsToSwap--;
+                transform.localScale = Vector3.one;
+                transform.SetParent(originalParent);
+                image.raycastTarget = true;
+            }
         }
-        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
+        else if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             transform.DOShakeScale(0.35f, 0.5f, 5);
         } else
@@ -162,23 +179,22 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void ReturnToHand()
     {
-        if (MulliganManager.isMulliganActive)
+        if (!MulliganManager.isMulliganActive)
         {
-            return;
-        }
         Tweener tween = transform.DOMove(originalParent.transform.position, 0.35f, true);
         tween.onComplete += () =>
         {
             transform.SetParent(originalParent);
         };
-       
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        
-        if (transform.parent == originalParent) return;
-        transform.position = eventData.position;
+        if (!MulliganManager.isMulliganActive && transform.parent != originalParent)
+        {
+            transform.position = eventData.position;
+        }
     }
 
 }
