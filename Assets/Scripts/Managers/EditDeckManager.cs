@@ -11,13 +11,18 @@ public class EditDeckManager : MonoBehaviour
 
     public static EditDeckManager instance;
    
-    public Dictionary<Card, int> chosenCards = new Dictionary<Card, int>();
+    public Dictionary<Card, int> playerOneChosenCards = new Dictionary<Card, int>();
+    public Dictionary<Card, int> playerTwoChosenCards = new Dictionary<Card, int>();
+
     public List<Card> cards = new List<Card>();
     public List<SpellCard> spellCards = new List<SpellCard>();
     public List<ItemCard> itemCards = new List<ItemCard>();
     public CardPreviewController cardControllerPrefab;
     private bool customDeck = false;
+    private bool playerSelect = false;
     public Button confirmbutton;
+    public Button switchPlayerButton;
+    public TextMeshProUGUI playerText;
 
 
     private void Awake()
@@ -32,6 +37,24 @@ public class EditDeckManager : MonoBehaviour
         confirmbutton.onClick.AddListener(() =>
         {
            customDeck = true;
+        });
+
+        switchPlayerButton.onClick.AddListener(() =>
+        {
+            playerSelect = !playerSelect;
+            ClearChosenCards();
+
+            if(!playerSelect)
+            {
+                SetupChosenCardsView(playerOneChosenCards);
+                playerText.text = "Player 1";
+            }
+            else
+            {
+                SetupChosenCardsView(playerTwoChosenCards);
+                playerText.text = "Player 2";
+
+            }
         });
     }
 
@@ -71,37 +94,75 @@ public class EditDeckManager : MonoBehaviour
 
     public void AddChosenCard(Card card)
     {
-        
-
-        if(chosenCards.ContainsKey(card))
+        if (!playerSelect)
         {
-            chosenCards[card] ++;
+
+        if(playerOneChosenCards.ContainsKey(card))
+        {
+                playerOneChosenCards[card] ++;
         }
         else
         {
-            chosenCards.Add(card, 1);    
+                playerOneChosenCards.Add(card, 1);    
         }
-        SetupChosenCardsView();
+
+        SetupChosenCardsView(playerOneChosenCards);
+
+        }
+        else
+        {
+            if (playerTwoChosenCards.ContainsKey(card))
+            {
+                playerTwoChosenCards[card]++;
+            }
+            else
+            {
+                playerTwoChosenCards.Add(card, 1);
+            }
+            SetupChosenCardsView(playerTwoChosenCards);
+
+        }
     }
+
+    
+
 
     public void RemoveChosenCard(Card card)
     {
-
-        if (chosenCards.ContainsKey(card))
+        if (!playerSelect)
         {
-            chosenCards[card] --;
 
-            if (chosenCards[card] <= 0)
+            if (playerOneChosenCards.ContainsKey(card))
             {
-                chosenCards.Remove(card);
-                Destroy(GameObject.Find(card.cardName));
+                playerOneChosenCards[card]--;
+
+                if (playerOneChosenCards[card] <= 0)
+                {
+                    playerOneChosenCards.Remove(card);
+                    Destroy(GameObject.Find(card.cardName));
+                }
             }
+        SetupChosenCardsView(playerOneChosenCards);
         }
+        else
+        {
+            if (playerTwoChosenCards.ContainsKey(card))
+            {
+                playerTwoChosenCards[card]--;
+
+                if (playerTwoChosenCards[card] <= 0)
+                {
+                    playerTwoChosenCards.Remove(card);
+                    Destroy(GameObject.Find(card.cardName));
+                }
+            }
+            SetupChosenCardsView(playerTwoChosenCards);
+        }
+
         
-        SetupChosenCardsView();
     }
 
-    private void SetupChosenCardsView()
+    private void SetupChosenCardsView(Dictionary<Card, int> chosenCards)
     {
         var image = GameObject.Find("ChosenCardGrid");
 
@@ -161,13 +222,50 @@ public class EditDeckManager : MonoBehaviour
     }
 
 
-    public List<Card> RetrieveCardDeck()
+    public List<Card> RetrieveCardDeck(int player)
     {
-        if (customDeck)
+        if (customDeck && player == 1)
         {
-            return ChosenCardsToList(chosenCards);
+            if(CheckDeckSize(playerOneChosenCards))
+            return ChosenCardsToList(playerOneChosenCards);
+        }
+
+        if (customDeck && player == 2)
+        {
+            if (CheckDeckSize(playerTwoChosenCards))
+                return ChosenCardsToList(playerTwoChosenCards);
         }
         return DefaultDeck();
     }
-   
+
+    private void ClearChosenCards()
+    {
+        var image = GameObject.Find("ChosenCardGrid");
+
+        for (int i = 0; i < image.transform.childCount; i++)
+            Destroy(image.transform.GetChild(i).gameObject);
+    }
+
+    private bool CheckDeckSize(Dictionary<Card, int> chosenCards)
+    {
+        int cardAmount = 0;
+
+        foreach (KeyValuePair<Card, int> card in chosenCards)
+        {
+            cardAmount += card.Value;
+        }
+
+        if(cardAmount >= 10)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void Update()
+    {
+        
+    }
+
 }

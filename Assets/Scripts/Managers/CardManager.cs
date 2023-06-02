@@ -46,8 +46,8 @@ public class CardManager : MonoBehaviour
     {
         instance = this;
         //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
-        player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
-        player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck());
+        player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck(1));
+        player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck(2));
         SetupButton(player1Button, player1HandArea, 0, player1Deck);
         SetupButton(player2Button, player2HandArea, 1, player2Deck);
     }
