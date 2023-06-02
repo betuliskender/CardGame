@@ -7,7 +7,7 @@ public class MulliganManager : MonoBehaviour
 {
     public Transform player1HandArea, player2HandArea;
     public Button player1Button, player2Button, endMulligan;
-
+    public static bool isMulliganActive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +23,8 @@ public class MulliganManager : MonoBehaviour
     {
         button.onClick.AddListener(() =>
         {
+            isMulliganActive = false;
+            Debug.Log("MulliganPhase is now over");
             transformParent();
         });
     }
@@ -34,7 +36,6 @@ public class MulliganManager : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             SwapCards(cards, playerHandArea, player);
-            
         });
 
     }
@@ -64,21 +65,20 @@ public class MulliganManager : MonoBehaviour
 
     private void transformParent()
     {
-        foreach (CardController card in CardManager.instance.player1Hand)
-        {
+            foreach (CardController card in CardManager.instance.player1Hand)
+            {
+                card.transform.SetParent(CardManager.instance.player1HandArea.root);
+                card.transform.localPosition = Vector3.zero;
+                card.Initialize(card.card, 0, CardManager.instance.player1HandArea);
+            }
 
-            card.transform.SetParent(CardManager.instance.player1HandArea.root);
-            card.transform.localPosition = Vector3.zero;
-            card.Initialize(card.card, 0, CardManager.instance.player1HandArea);
-        }
-
-        foreach (CardController card in CardManager.instance.player2Hand)
-        {
-            card.transform.SetParent(CardManager.instance.player2HandArea.root);
-            card.transform.localPosition = Vector3.zero;
-            card.Initialize(card.card, 1, CardManager.instance.player2HandArea);
-        }
-    }
+            foreach (CardController card in CardManager.instance.player2Hand)
+            {
+                card.transform.SetParent(CardManager.instance.player2HandArea.root);
+                card.transform.localPosition = Vector3.zero;
+                card.Initialize(card.card, 1, CardManager.instance.player2HandArea);
+            }
+         }
 
 
 

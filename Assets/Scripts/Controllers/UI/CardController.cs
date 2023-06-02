@@ -15,6 +15,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
     public event Action CardAction;
+    private bool isSelected = false;
 
     private void Awake()
     {
@@ -100,7 +101,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        if(MulliganManager.isMulliganActive)
+        {
+            return;
+        }
         if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             transform.DOShakeScale(0.35f, 0.5f, 5);
@@ -158,6 +162,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void ReturnToHand()
     {
+        if (MulliganManager.isMulliganActive)
+        {
+            return;
+        }
         Tweener tween = transform.DOMove(originalParent.transform.position, 0.35f, true);
         tween.onComplete += () =>
         {
@@ -172,4 +180,5 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (transform.parent == originalParent) return;
         transform.position = eventData.position;
     }
+
 }
