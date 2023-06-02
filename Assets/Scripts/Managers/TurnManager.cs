@@ -16,13 +16,28 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
+        mulliganPhase = true;
         StartTurnGamePlay(0);
     }
 
     public void StartTurnGamePlay(int playerID)
     {
-        currentPlayerTurn = playerID;
-        StartTurn();
+        if (mulliganPhase)
+        {
+            if (playerID == 0)
+            {
+                //PLAYER 1's tur i mulliganfasen
+            }
+            else if (playerID == 1)
+            {
+                //PLAYER 2's tur i mulliganfasen
+            }
+        }
+        else
+        {
+            currentPlayerTurn = playerID;
+            StartTurn();
+        }
     }
 
     public void StartTurn()
