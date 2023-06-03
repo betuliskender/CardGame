@@ -24,6 +24,7 @@ public class TurnManager : MonoBehaviour
     {
         if (mulliganPhase)
         {
+            currentPlayerTurn = playerID;
             if (playerID == 0)
             {
                 //PLAYER 1's tur i mulliganfasen
