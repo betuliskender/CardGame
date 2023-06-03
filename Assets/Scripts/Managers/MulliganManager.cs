@@ -8,6 +8,7 @@ public class MulliganManager : MonoBehaviour
     public Transform player1HandArea, player2HandArea;
     public Button player1Button, player2Button, endMulligan;
     public static bool isMulliganActive = true;
+    private int activePlayer = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,12 @@ public class MulliganManager : MonoBehaviour
 
         button.onClick.AddListener(() =>
         {
-            SwapCards(cards, playerHandArea, player);
+            if (activePlayer == player)
+            {
+                SwapCards(cards, playerHandArea, player);
+                activePlayer = (activePlayer == 1) ? 2 : 1;
+                Debug.Log("Active player is now: " + activePlayer);
+            }
         });
 
     }

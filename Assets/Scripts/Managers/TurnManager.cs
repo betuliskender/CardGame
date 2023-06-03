@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
     public int currentPlayerTurn;
     private int currentTurn = 1;
     public bool mulliganPhase = true;
+    public int CurrentPlayerTurn => currentPlayerTurn;
 
     private void Awake()
     {
@@ -70,6 +71,11 @@ public class TurnManager : MonoBehaviour
             currentTurn++;
         }
 
+    }
+
+    public void ChangeActivePlayer()
+    {
+        currentPlayerTurn = (currentPlayerTurn == 1) ? 2 : 1;
     }
 
     private IEnumerator WaitForAttacks(float cards)
