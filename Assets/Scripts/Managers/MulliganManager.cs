@@ -12,8 +12,8 @@ public class MulliganManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
-        CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
+        CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck, 0);
+        CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck, 1);
         SetupButton(player1Button, CardManager.instance.player1Hand, player1HandArea, 0);
         SetupButton(player2Button, CardManager.instance.player2Hand, player2HandArea, 1);
         ChangeScene(endMulligan);
@@ -59,12 +59,12 @@ public class MulliganManager : MonoBehaviour
 
         if (player == 0)
         {
-            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player1Deck);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player1Deck, 0);
             CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
         }
         else if (player == 1)
         {
-            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player2Deck);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player2Deck, 1);
             CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
         }
     }
