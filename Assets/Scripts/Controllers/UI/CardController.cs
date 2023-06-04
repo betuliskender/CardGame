@@ -115,9 +115,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 transform.localScale = selectorScaler2000;
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
-                selectedCards = GetSelectedCards();
-                selectedCards.Add(this);
-                Debug.Log("Amount of cards in selectedCards: " + selectedCards.Count);
+                MulliganManager.instance.selectedCards.Add(this);
+                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
             }
             else if (isSelected)
             {
@@ -126,21 +125,19 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 transform.localScale = Vector3.one;
                 transform.SetParent(originalParent);
                 image.raycastTarget = true;
-                selectedCards = GetSelectedCards();
-                selectedCards.Remove(this);
-                Debug.Log("Amount of cards in selectedCards: " + selectedCards.Count);
-
+                MulliganManager.instance.selectedCards.Remove(this);
+                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
             }
         }
         else if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             transform.DOShakeScale(0.35f, 0.5f, 5);
-        } else
+        }
+        else
         {
             transform.SetParent(transform.root);
             image.raycastTarget = false;
         }
-        
     }
 
     public void OnPointerUp(PointerEventData eventData)
