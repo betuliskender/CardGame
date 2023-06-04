@@ -8,15 +8,14 @@ public class MulliganManager : MonoBehaviour
     public Transform player1HandArea, player2HandArea;
     public Button player1Button, player2Button, endMulligan;
     public static bool isMulliganActive = true;
-    private int activePlayer = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
         CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
-        SetupButton(player1Button, CardManager.instance.player1Hand, player1HandArea, 1);
-        SetupButton(player2Button, CardManager.instance.player2Hand, player2HandArea, 2);
+        SetupButton(player1Button, CardManager.instance.player1Hand, player1HandArea, 0);
+        SetupButton(player2Button, CardManager.instance.player2Hand, player2HandArea, 1);
         ChangeScene(endMulligan);
     }
 
@@ -33,39 +32,39 @@ public class MulliganManager : MonoBehaviour
 
     private void SetupButton(Button button, List<CardController> cards, Transform playerHandArea, int player)
     {
-        
-
         button.onClick.AddListener(() =>
         {
-            if (activePlayer == player)
+            if (TurnManager.instance.CurrentPlayerTurn == player)
             {
                 SwapCards(cards, playerHandArea, player);
-                activePlayer = (activePlayer == 1) ? 2 : 1;
-                Debug.Log("Active player is now: " + activePlayer);
+                TurnManager.instance.ChangeActivePlayer();
+                Debug.Log("Active player is now: " + TurnManager.instance.CurrentPlayerTurn);
+            }
+            else
+            {
+                Debug.Log("Button clicked, but it's not the current player's turn. Current player: " + TurnManager.instance.CurrentPlayerTurn);
             }
         });
-
     }
 
     private void SwapCards(List<CardController> cards, Transform playerHandArea, int player)
     {
-
-        List<CardController> tempCardsPlayer = new();
-
-        tempCardsPlayer.AddRange(cards);
+        List<CardController> tempCardsPlayer = new List<CardController>(cards);
+        cards.Clear();
 
         foreach (Transform child in playerHandArea.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-        if(player == 1)
+
+        if (player == 0)
         {
-        CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck);
-        CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player1Deck);
+            CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
         }
-        if (player == 2)
+        else if (player == 1)
         {
-            CardManager.instance.GenerateCards(playerHandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player2Deck);
             CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
         }
     }

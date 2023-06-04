@@ -75,7 +75,8 @@ public class TurnManager : MonoBehaviour
 
     public void ChangeActivePlayer()
     {
-        currentPlayerTurn = (currentPlayerTurn == 1) ? 2 : 1;
+        currentPlayerTurn = (currentPlayerTurn + 1) % 2;
+        Debug.Log("Active player changed to: " + currentPlayerTurn);
     }
 
     private IEnumerator WaitForAttacks(float cards)
