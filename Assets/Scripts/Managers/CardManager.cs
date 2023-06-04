@@ -52,7 +52,7 @@ public class CardManager : MonoBehaviour
         SetupButton(player2Button, player2HandArea, 1, player2Deck);
     }
 
-    public void GenerateCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck, int playerID)
+    public void GenerateCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck, int playerID, int amount)
     {
             playerHand.Clear();
            

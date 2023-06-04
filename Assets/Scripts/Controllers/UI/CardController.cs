@@ -15,9 +15,11 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
     public event Action CardAction;
-    private bool isSelected = false;
+    public bool isSelected = false;
     Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
     private static int amountOfCardsToSwap = 0;
+    public List<CardController> selectedCards = new List<CardController>();
+    public static CardController instance;
 
     private void Awake()
     {
@@ -113,6 +115,9 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 transform.localScale = selectorScaler2000;
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
+                selectedCards = GetSelectedCards();
+                selectedCards.Add(this);
+                Debug.Log("Amount of cards in selectedCards: " + selectedCards.Count);
             }
             else if (isSelected)
             {
@@ -121,6 +126,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 transform.localScale = Vector3.one;
                 transform.SetParent(originalParent);
                 image.raycastTarget = true;
+                selectedCards = GetSelectedCards();
+                selectedCards.Remove(this);
+                Debug.Log("Amount of cards in selectedCards: " + selectedCards.Count);
+
             }
         }
         else if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
@@ -196,6 +205,25 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             transform.position = eventData.position;
         }
+    }
+
+    private List<CardController> GetSelectedCards()
+    {
+        List<CardController> selectedCards = new List<CardController>();
+
+        // Loop through the children of the original parent
+        foreach (Transform child in originalParent)
+        {
+            CardController card = child.GetComponent<CardController>();
+
+            // Check if the card is selected
+            if (card != null && card.isSelected)
+            {
+                selectedCards.Add(card);
+            }
+        }
+
+        return selectedCards;
     }
 
 }

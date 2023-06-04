@@ -7,15 +7,17 @@ public class MulliganManager : MonoBehaviour
 {
     public Transform player1HandArea, player2HandArea;
     public Button player1Button, player2Button, endMulligan;
+    public MulliganManager instance;
     public static bool isMulliganActive = true;
+    public List<CardController> selectedCards = CardController.instance.selectedCards;
 
     // Start is called before the first frame update
     void Start()
     {
-        CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck, 0);
-        CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck, 1);
-        SetupButton(player1Button, CardManager.instance.player1Hand, player1HandArea, 0);
-        SetupButton(player2Button, CardManager.instance.player2Hand, player2HandArea, 1);
+        CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck, 0, 4);
+        CardManager.instance.GenerateCards(player2HandArea, CardManager.instance.player2Hand, CardManager.instance.player2Deck, 1, 4);
+        SetupButton(player1Button, player1HandArea, 0);
+        SetupButton(player2Button, player2HandArea, 1);
         ChangeScene(endMulligan);
     }
 
@@ -30,13 +32,13 @@ public class MulliganManager : MonoBehaviour
         });
     }
 
-    private void SetupButton(Button button, List<CardController> cards, Transform playerHandArea, int player)
+    private void SetupButton(Button button, Transform playerHandArea, int player)
     {
         button.onClick.AddListener(() =>
         {
             if (TurnManager.instance.CurrentPlayerTurn == player)
             {
-                SwapCards(cards, playerHandArea, player);
+                SwapCards(selectedCards, playerHandArea, player);
                 TurnManager.instance.ChangeActivePlayer();
                 Debug.Log("Active player is now: " + TurnManager.instance.CurrentPlayerTurn);
             }
@@ -52,20 +54,25 @@ public class MulliganManager : MonoBehaviour
         List<CardController> tempCardsPlayer = new List<CardController>(cards);
         cards.Clear();
 
-        foreach (Transform child in playerHandArea.transform)
+        //foreach (Transform child in playerHandArea.transform)
+        //{
+        //    GameObject.Destroy(child.gameObject);
+        //}
+        foreach (CardController selectedCard in selectedCards)
         {
-            GameObject.Destroy(child.gameObject);
+            cards.Remove(selectedCard);
+            Destroy(selectedCard.gameObject);
         }
 
         if (player == 0)
         {
-            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player1Deck, 0);
-            CardManager.instance.player1Deck.ReShuffleCards(tempCardsPlayer);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player1Deck, 0, selectedCards.Count);
+            CardManager.instance.player1Deck.ReShuffleCards(selectedCards);
         }
         else if (player == 1)
         {
-            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player2Deck, 1);
-            CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
+            CardManager.instance.GenerateCards(playerHandArea, cards, CardManager.instance.player2Deck, 1, selectedCards.Count);
+            CardManager.instance.player2Deck.ReShuffleCards(selectedCards);
         }
     }
 
