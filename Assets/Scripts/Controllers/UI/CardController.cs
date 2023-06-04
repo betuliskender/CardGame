@@ -105,7 +105,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (MulliganManager.isMulliganActive)
         {
-            if (!isSelected && amountOfCardsToSwap < 3&& TurnManager.instance.CurrentPlayerTurn == card.ownerID)
+            if (!isSelected && amountOfCardsToSwap < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
             {
                 isSelected = true;
                 Debug.Log("Dette kort har ownerID: " + card.ownerID);
