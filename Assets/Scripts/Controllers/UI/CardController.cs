@@ -17,7 +17,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public event Action CardAction;
     public bool isSelected = false;
     Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
-    private static int amountOfCardsToSwap = 0;
+    public int amountOfCardsToSwap = 0;
     public List<CardController> selectedCards = new List<CardController>();
     public static CardController instance;
 
@@ -107,11 +107,11 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (MulliganManager.isMulliganActive)
         {
-            if (!isSelected && amountOfCardsToSwap < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
+            if (!isSelected && MulliganManager.instance.selectedCards.Count < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
             {
                 isSelected = true;
-                Debug.Log("Dette kort har ownerID: " + card.ownerID);
-                amountOfCardsToSwap++;
+                //Debug.Log("Dette kort har ownerID: " + card.ownerID);
+                //amountOfCardsToSwap++;
                 transform.localScale = selectorScaler2000;
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
