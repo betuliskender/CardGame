@@ -3005,6 +3005,7 @@ MonoBehaviour:
   player1Button: {fileID: 1589450773}
   player2Button: {fileID: 2046220181}
   endMulligan: {fileID: 1806421155}
+  selectedCards: []
 --- !u!1 &1466184328
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,7 +4227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1941854767
 RectTransform:
   m_ObjectHideFlags: 0
