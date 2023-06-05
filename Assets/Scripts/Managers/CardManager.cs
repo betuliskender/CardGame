@@ -24,7 +24,7 @@ public class CardManager : MonoBehaviour
 
     private void Awake()
     {
-       
+        instance = this;
 
     }
 
@@ -52,7 +52,7 @@ public class CardManager : MonoBehaviour
         SetupButton(player2Button, player2HandArea, 1, player2Deck);
     }
 
-    public void GenerateCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck)
+    public void GenerateCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck, int playerID)
     {
             playerHand.Clear();
            
@@ -60,11 +60,26 @@ public class CardManager : MonoBehaviour
         {
             CardController newCard = Instantiate(cardControllerPrefab, playerMulliganArea.root);
             newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, 0, playerMulliganArea);
+            newCard.Initialize(card, playerID, playerMulliganArea);
             playerHand.Add(newCard);
-            Debug.Log(playerHand.Count);
+            //Debug.Log(playerHand.Count);
         }
       
+    }
+
+    public void DrawMulliganedCards(Transform playerMulliganArea, List<CardController> playerHand, Deck deck, int playerID, int amount)
+    {
+        List<Card> cards = deck.DrawXAmountOfCards(amount);
+        foreach (Card card in cards) 
+        {
+                CardController newCard = Instantiate(cardControllerPrefab, playerMulliganArea.root);
+                newCard.transform.localPosition = Vector3.zero;
+                newCard.Initialize(card, playerID, playerMulliganArea);
+                playerHand.Add(newCard);
+                //Debug.Log(playerHand.Count);
+            
+        }
+
     }
 
     public void PlayCard(CardController card, int ID)

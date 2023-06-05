@@ -15,6 +15,11 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
     public event Action CardAction;
+    public bool isSelected = false;
+    Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
+    public int amountOfCardsToSwap = 0;
+    public List<CardController> selectedCards = new List<CardController>();
+    public static CardController instance;
 
     private void Awake()
     {
@@ -100,16 +105,39 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
-        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
+        if (MulliganManager.isMulliganActive)
+        {
+            if (!isSelected && MulliganManager.instance.selectedCards.Count < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
+            {
+                isSelected = true;
+                //Debug.Log("Dette kort har ownerID: " + card.ownerID);
+                //amountOfCardsToSwap++;
+                transform.localScale = selectorScaler2000;
+                transform.SetParent(transform.root);
+                image.raycastTarget = false;
+                MulliganManager.instance.selectedCards.Add(this);
+                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
+            }
+            else if (isSelected)
+            {
+                isSelected = false;
+                amountOfCardsToSwap--;
+                transform.localScale = Vector3.one;
+                transform.SetParent(originalParent);
+                image.raycastTarget = true;
+                MulliganManager.instance.selectedCards.Remove(this);
+                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
+            }
+        }
+        else if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
         {
             transform.DOShakeScale(0.35f, 0.5f, 5);
-        } else
+        }
+        else
         {
             transform.SetParent(transform.root);
             image.raycastTarget = false;
         }
-        
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -158,18 +186,41 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void ReturnToHand()
     {
+        if (!MulliganManager.isMulliganActive)
+        {
         Tweener tween = transform.DOMove(originalParent.transform.position, 0.35f, true);
         tween.onComplete += () =>
         {
             transform.SetParent(originalParent);
         };
-       
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        
-        if (transform.parent == originalParent) return;
-        transform.position = eventData.position;
+        if (!MulliganManager.isMulliganActive && transform.parent != originalParent)
+        {
+            transform.position = eventData.position;
+        }
     }
+
+    private List<CardController> GetSelectedCards()
+    {
+        List<CardController> selectedCards = new List<CardController>();
+
+        // Loop through the children of the original parent
+        foreach (Transform child in originalParent)
+        {
+            CardController card = child.GetComponent<CardController>();
+
+            // Check if the card is selected
+            if (card != null && card.isSelected)
+            {
+                selectedCards.Add(card);
+            }
+        }
+
+        return selectedCards;
+    }
+
 }

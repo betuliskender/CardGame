@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
     public int currentPlayerTurn;
     private int currentTurn = 1;
     public bool mulliganPhase = true;
+    public int CurrentPlayerTurn => currentPlayerTurn;
 
     private void Awake()
     {
@@ -16,13 +17,15 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
+        mulliganPhase = true;
         StartTurnGamePlay(0);
     }
 
     public void StartTurnGamePlay(int playerID)
     {
-        currentPlayerTurn = playerID;
-        StartTurn();
+        
+            currentPlayerTurn = playerID;
+            StartTurn();
     }
 
     public void StartTurn()
@@ -54,6 +57,12 @@ public class TurnManager : MonoBehaviour
             currentTurn++;
         }
 
+    }
+
+    public void ChangeActivePlayer()
+    {
+        currentPlayerTurn = (currentPlayerTurn + 1) % 2;
+        Debug.Log("Active player changed to: " + currentPlayerTurn);
     }
 
     private IEnumerator WaitForAttacks(float cards)

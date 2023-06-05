@@ -66,6 +66,15 @@ public class Deck
         return cardStack.Pop();
     }
 
+    public List<Card> DrawXAmountOfCards(int amountToDraw)
+    {
+        List<Card> cards= new List<Card>();
+        for (int i = 0; i < amountToDraw; i++)
+        {
+            cards.Add(cardStack.Pop());}
+        return cards;
+    }
+
     public List<Card> StartHand()
     {
         List<Card> cards = new List<Card>
