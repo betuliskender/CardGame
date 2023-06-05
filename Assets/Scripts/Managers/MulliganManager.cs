@@ -39,9 +39,8 @@ public class MulliganManager : MonoBehaviour
             isMulliganActive = false;
             Debug.Log("MulliganPhase is now over");
             TurnManager.instance.mulliganPhase = false;
-
-            List<CardController> tempSelectedCards = SwapCards(selectedCards, player1HandArea, 0);
-            transformParent(tempSelectedCards, player1HandArea, player2HandArea);
+            Debug.Log("Selected Cards Count: " + selectedCards.Count);
+            transformParent();
         });
     }
 
@@ -94,32 +93,26 @@ public class MulliganManager : MonoBehaviour
         return tempCardsPlayer;
     }
 
-    private void transformParent(List<CardController> cards, Transform player1HandArea, Transform player2HandArea)
+    private void transformParent()
     {
-        List<CardController> tempSelectedCards = new List<CardController>(cards);
-
-        foreach (CardController card in cards)
+        foreach (CardController card in selectedCards)
         {
             if (card.card.ownerID == 0)
             {
-                card.transform.SetParent(player1HandArea.root);
+                card.transform.SetParent(player1HandArea);
                 card.transform.localPosition = Vector3.zero;
                 card.Initialize(card.card, 0, player1HandArea);
             }
             else if (card.card.ownerID == 1)
             {
-                card.transform.SetParent(player2HandArea.root);
+                card.transform.SetParent(player2HandArea);
                 card.transform.localPosition = Vector3.zero;
                 card.Initialize(card.card, 1, player2HandArea);
             }
         }
 
-        // Destroy the selected cards
-        foreach (CardController selectedCard in tempSelectedCards)
-        {
-            cards.Remove(selectedCard);
-            Destroy(selectedCard.gameObject);
-        }
+        // Clear the selected cards list
+        selectedCards.Clear();
     }
 
 

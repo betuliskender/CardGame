@@ -24,7 +24,7 @@ public class CardManager : MonoBehaviour
 
     private void Awake()
     {
-       
+        instance = this;
 
     }
 
