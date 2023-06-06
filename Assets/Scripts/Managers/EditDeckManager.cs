@@ -85,6 +85,8 @@ public class EditDeckManager : MonoBehaviour
     public void SetupAvailableCards()
     {
 
+      
+
         foreach (Card card in cards)
         {
             AddCardToGrid(card);
@@ -110,6 +112,11 @@ public class EditDeckManager : MonoBehaviour
     private void AddCardToGrid(Card card)
     {
         var gridContent = GameObject.Find("AvailableCardsGrid");
+
+        if(gridContent.transform.childCount > 0)
+        {
+            return;
+        }
        
             CardPreviewController newCard = Instantiate(cardControllerPrefab, gridContent.transform.root);
             newCard.transform.localPosition = Vector3.zero;
@@ -271,6 +278,8 @@ public class EditDeckManager : MonoBehaviour
         for (int i = 0; i < image.transform.childCount; i++)
             Destroy(image.transform.GetChild(i).gameObject);
     }
+
+    
 
     private bool CheckDeckSize(Dictionary<Card, int> chosenCards)
     {

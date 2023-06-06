@@ -17,5 +17,10 @@ public class EditDeckController : MonoBehaviour
         EditDeckManager.instance.SetupAvailableCards();
     }
 
+    private void OnDisable()
+    {
+        
+    }
+
 
 }
