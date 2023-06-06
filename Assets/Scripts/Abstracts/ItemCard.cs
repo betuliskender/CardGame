@@ -25,7 +25,6 @@ public class ItemCard : Card, IHeal, IInstant
     public void Instant()
     {
         base.CardActionTest();
-        Debug.Log($"HEAL: {healAmount} cardName: {cardName}");
         PlayerManager.instance.HealPlayer(ownerID, Heal());
     }
 }

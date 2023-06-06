@@ -24,8 +24,7 @@ public class SpellCard : Card, IInstant
 
     public void Instant() 
     {
-        
-        Debug.Log($"Dette er fra SpellCard med SpellPower: {this.SpellPower} og OwnerId {this.ownerID}");
+
     }
 
 

@@ -24,7 +24,6 @@ public class Card
 
     public void CardActionTest()
     {
-        Debug.Log($"Dette er fra base kortet {this.cardName}");
     }
 
 }
