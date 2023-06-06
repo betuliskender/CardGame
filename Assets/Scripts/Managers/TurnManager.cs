@@ -17,7 +17,7 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
-        mulliganPhase = true;
+        //mulliganPhase = true;
         StartTurnGamePlay(0);
     }
 
