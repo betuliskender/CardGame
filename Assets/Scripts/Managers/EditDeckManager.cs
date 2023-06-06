@@ -22,14 +22,21 @@ public class EditDeckManager : MonoBehaviour
     private bool playerSelect = false;
     public Button confirmbutton;
     public Button switchPlayerButton;
+    public Button clearDeckButton;
     public TextMeshProUGUI playerText;
+    public TextMeshProUGUI deckSizeText;
 
 
     private void Awake()
     {
         instance = this;   
-        SetupAvailableCards();
+        //SetupAvailableCards();
         SetupButton();
+    }
+
+    private void Start()
+    {
+
     }
 
     private void SetupButton()
@@ -41,8 +48,9 @@ public class EditDeckManager : MonoBehaviour
 
         switchPlayerButton.onClick.AddListener(() =>
         {
-            playerSelect = !playerSelect;
             ClearChosenCards();
+            playerSelect = !playerSelect;
+            deckSizeText.text = "Size: 0";
 
             if(!playerSelect)
             {
@@ -56,9 +64,25 @@ public class EditDeckManager : MonoBehaviour
 
             }
         });
+
+        clearDeckButton.onClick.AddListener(() =>
+        {
+            ClearChosenCards();
+            deckSizeText.text = "Size: 0";
+
+            if (!playerSelect)
+            {
+                playerOneChosenCards.Clear();
+            }
+            else
+            {
+                playerTwoChosenCards.Clear();
+
+            }
+        });
     }
 
-    private void SetupAvailableCards()
+    public void SetupAvailableCards()
     {
 
         foreach (Card card in cards)
@@ -186,6 +210,8 @@ public class EditDeckManager : MonoBehaviour
 
             }
 
+            deckSizeText.text = $"Size: {CalculateDeckSize(chosenCards)}";
+
         }
     }
 
@@ -250,10 +276,7 @@ public class EditDeckManager : MonoBehaviour
     {
         int cardAmount = 0;
 
-        foreach (KeyValuePair<Card, int> card in chosenCards)
-        {
-            cardAmount += card.Value;
-        }
+        cardAmount = CalculateDeckSize(chosenCards);
 
         if(cardAmount >= 10)
         {
@@ -261,6 +284,19 @@ public class EditDeckManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private int CalculateDeckSize(Dictionary<Card, int> chosenCards)
+    {
+        int cardAmount = 0;
+
+        foreach (KeyValuePair<Card, int> card in chosenCards)
+        {
+            cardAmount += card.Value;
+        }
+
+
+        return cardAmount;
     }
 
     private void Update()

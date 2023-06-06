@@ -12,5 +12,10 @@ public class EditDeckController : MonoBehaviour
         instance = this;  
     }
 
-    
+    private void OnEnable()
+    {
+        EditDeckManager.instance.SetupAvailableCards();
+    }
+
+
 }
