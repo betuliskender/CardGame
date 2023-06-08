@@ -117,7 +117,17 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 isSelected = true;
                 //Debug.Log("Dette kort har ownerID: " + card.ownerID);
                 //amountOfCardsToSwap++;
-                transform.localScale = selectorScaler2000;
+                if (card.ownerID == 0 && isSelected)
+                {
+                    transform.localPosition += new Vector3(0f, 280f, 0f);
+                    transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+                }
+                if (card.ownerID == 1 && isSelected)
+                {
+                    transform.localPosition += new Vector3(0f, -280f, 0f);
+                    transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+                }
+                //transform.localScale = selectorScaler2000;
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
                 MulliganManager.instance.selectedCards.Add(this);
@@ -127,7 +137,16 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             {
                 isSelected = false;
                 amountOfCardsToSwap--;
-                transform.localScale = Vector3.one;
+                if (card.ownerID == 0 && !isSelected)
+                {
+                    transform.localPosition -= new Vector3(0f, -280f, 0f);
+                    transform.localScale = new Vector3(1f, 1f, 1f);
+                }
+                if(card.ownerID == 1 && !isSelected)
+                {
+                    transform.localPosition += new Vector3(0f, 280f, 0f);
+                    transform.localScale = new Vector3(1f, 1f, 1f);
+                }
                 transform.SetParent(originalParent);
                 image.raycastTarget = true;
                 MulliganManager.instance.selectedCards.Remove(this);
