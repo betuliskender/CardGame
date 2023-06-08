@@ -23,6 +23,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
         image = GetComponent<Image>();
     }
 
@@ -50,7 +52,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         };
         if (card.health == 0) health.text = "";
 
-        UpdateVisibility(ownerID);
+        UpdateVisibility(0);
     }
 
     private Card ManageCardActions(Card card, int ownerID)
@@ -227,8 +229,9 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void UpdateVisibility(int currentPlayerID)
     {
-        if(currentPlayerID == TurnManager.instance.CurrentPlayerTurn)
+        if(card.ownerID == currentPlayerID)
         {
+            Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
             illustration.enabled = true;
             cardName.enabled = true;
             manaCost.enabled = true;

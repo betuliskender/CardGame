@@ -12,7 +12,8 @@ public class TurnManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+            instance = this;
     }
 
     private void Start()
@@ -30,7 +31,7 @@ public class TurnManager : MonoBehaviour
 
     public void StartTurn()
     {
-        GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
+        //GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
         //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
         CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1ActiveCards, CardManager.instance.player2ActiveCards);
@@ -39,8 +40,7 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-
-        if(currentPlayerTurn == 0 )
+        if (currentPlayerTurn == 0 )
         {
         CardManager.instance.ProcessEndTurn(CardManager.instance.player1ActiveCards, CardManager.instance.player2ActiveCards);
         }
@@ -56,6 +56,8 @@ public class TurnManager : MonoBehaviour
         {
             currentTurn++;
         }
+        UpdateCardVisibility();
+
 
     }
 
@@ -63,6 +65,18 @@ public class TurnManager : MonoBehaviour
     {
         currentPlayerTurn = (currentPlayerTurn + 1) % 2;
         Debug.Log("Active player changed to: " + currentPlayerTurn);
+        UpdateCardVisibility();
+    }
+
+    public void UpdateCardVisibility()
+    {
+        int currentPlayerID = currentPlayerTurn;
+        CardController[] allCards = FindObjectsOfType<CardController>();
+
+        foreach (CardController card in allCards)
+        {
+            card.UpdateVisibility(currentPlayerID);
+        }
     }
 
     private IEnumerator WaitForAttacks(float cards)

@@ -13,7 +13,8 @@ public class GamePlayUIController : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+            instance = this;
         SetupButton();
     }
 
