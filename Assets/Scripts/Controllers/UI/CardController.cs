@@ -20,6 +20,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public int amountOfCardsToSwap = 0;
     public List<CardController> selectedCards = new List<CardController>();
     public static CardController instance;
+    public bool IsOnBoard { get; private set; }
 
     private void Awake()
     {
@@ -51,7 +52,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             transform.SetParent(intendedParent);
         };
         if (card.health == 0) health.text = "";
-
+        IsOnBoard = false;
         UpdateVisibility(0);
     }
 
@@ -185,6 +186,9 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         transform.SetParent(playArea);
         transform.localPosition = Vector3.zero;
         originalParent = playArea;
+        IsOnBoard = true;
+        UpdateVisibility(card.ownerID);
+
         CardManager.instance.PlayCard(this, card.ownerID); 
     }
 
@@ -229,7 +233,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void UpdateVisibility(int currentPlayerID)
     {
-        if(card.ownerID == currentPlayerID)
+        if (IsOnBoard || card.ownerID == currentPlayerID)
         {
             Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
             illustration.enabled = true;
