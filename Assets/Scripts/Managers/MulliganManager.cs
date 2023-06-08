@@ -60,6 +60,7 @@ public class MulliganManager : MonoBehaviour
             {
                 Debug.Log("Button clicked, but it's not the current player's turn. Current player: " + TurnManager.instance.CurrentPlayerTurn);
             }
+            CardController.instance.UpdateVisibility(TurnManager.instance.CurrentPlayerTurn);
         });
     }
 

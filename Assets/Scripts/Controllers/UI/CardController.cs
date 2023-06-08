@@ -49,6 +49,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             transform.SetParent(intendedParent);
         };
         if (card.health == 0) health.text = "";
+
+        UpdateVisibility(ownerID);
     }
 
     private Card ManageCardActions(Card card, int ownerID)
@@ -221,6 +223,27 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
 
         return selectedCards;
+    }
+
+    public void UpdateVisibility(int currentPlayerID)
+    {
+        if(currentPlayerID == TurnManager.instance.CurrentPlayerTurn)
+        {
+            illustration.enabled = true;
+            cardName.enabled = true;
+            manaCost.enabled = true;
+            damage.enabled = true;
+            health.enabled = true;
+        }
+        else
+        {
+            illustration.enabled = false;
+            cardName.enabled = false;
+            manaCost.enabled = false;
+            damage.enabled = false;
+            health.enabled = false;
+        }
+
     }
 
 }
