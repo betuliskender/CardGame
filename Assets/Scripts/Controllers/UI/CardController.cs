@@ -21,6 +21,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public List<CardController> selectedCards = new List<CardController>();
     public static CardController instance;
     public bool IsOnBoard { get; private set; }
+    public bool isDiscarded = false;
 
     private void Awake()
     {
@@ -252,6 +253,14 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void UpdateVisibility(int currentPlayerID)
     {
+        if(isDiscarded)
+        {
+            illustration.enabled = true;
+            cardName.enabled = true;
+            manaCost.enabled = true;
+            damage.enabled = true;
+            health.enabled = true;
+        }
         if (IsOnBoard || card.ownerID == currentPlayerID)
         {
             Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);

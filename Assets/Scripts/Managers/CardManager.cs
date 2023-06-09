@@ -104,7 +104,8 @@ public class CardManager : MonoBehaviour
             CardController newCard = Instantiate(cardControllerPrefab, card.card.ownerID == 0 ? player1Discard.root : player1Discard.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card.card, card.card.ownerID, card.card.ownerID == 0 ? player1Discard : player2Discard);
-
+            card.isDiscarded = true;
+            Debug.Log("CARD DISCARDED");
             player1DiscardPile.Push(newCard);
             Debug.Log(player1DiscardPile.Count);
             Destroy(card.gameObject);
