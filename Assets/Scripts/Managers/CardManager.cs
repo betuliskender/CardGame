@@ -37,6 +37,7 @@ public class CardManager : MonoBehaviour
             CardController newCard = Instantiate(cardControllerPrefab, hand.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card, ID, ID == 0 ? player1HandArea : player2HandArea);
+            newCard.UpdateVisibility(ID);
         });
 
       
