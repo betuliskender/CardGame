@@ -24,6 +24,7 @@ public class GameEndUIController : MonoBehaviour
     {
         restart.onClick.AddListener(() =>
         {
+            MulliganManager.isMulliganActive = true;
             RestartMatch();
         });
         quit.onClick.AddListener(() =>
