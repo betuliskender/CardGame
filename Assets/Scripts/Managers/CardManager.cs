@@ -32,12 +32,19 @@ public class CardManager : MonoBehaviour
     {
         button.onClick.AddListener(() =>
         {
-            Debug.Log(deck.cardStack.Count);
-            var card = deck.DrawCard();
-            CardController newCard = Instantiate(cardControllerPrefab, hand.root);
-            newCard.transform.localPosition = Vector3.zero;
-            newCard.Initialize(card, ID, ID == 0 ? player1HandArea : player2HandArea);
-            newCard.UpdateVisibility(ID);
+            if (TurnManager.instance.CurrentPlayerTurn == ID)
+            {
+                Debug.Log(deck.cardStack.Count);
+                var card = deck.DrawCard();
+                CardController newCard = Instantiate(cardControllerPrefab, hand.root);
+                newCard.transform.localPosition = Vector3.zero;
+                newCard.Initialize(card, ID, ID == 0 ? player1HandArea : player2HandArea);
+                newCard.UpdateVisibility(ID);
+            }
+            else
+            {
+                Debug.Log("Button clicked, but it's not the current player's turn. Current player: " + TurnManager.instance.CurrentPlayerTurn);
+            }
         });
 
       
