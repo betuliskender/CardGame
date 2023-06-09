@@ -105,12 +105,7 @@ public class CardManager : MonoBehaviour
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card.card, card.card.ownerID, card.card.ownerID == 0 ? player1Discard : player2Discard);
             newCard.isDiscarded = true;
-            newCard.illustration.enabled = true;
-            newCard.cardName.enabled = true;
-            newCard.manaCost.enabled = true;
-            newCard.damage.enabled = true;
-            newCard.health.enabled = true;
-            newCard.backgroundImage.enabled = false;
+            newCard.UpdateVisibility(0);
 
             if(card.card.ownerID == 0)
         {
