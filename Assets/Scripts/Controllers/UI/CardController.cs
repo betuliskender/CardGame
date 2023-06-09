@@ -12,6 +12,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public Card card;
     public Image illustration, image;
+    public Image backgroundImage;
     public TextMeshProUGUI cardName, health, manaCost, damage;
     private Transform originalParent;
     public event Action CardAction;
@@ -28,6 +29,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (instance == null)
             instance = this;
         image = GetComponent<Image>();
+        backgroundImage = transform.Find("Background").GetComponent<Image>();
     }
 
     public void ActionCall()
@@ -260,8 +262,9 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             manaCost.enabled = true;
             damage.enabled = true;
             health.enabled = true;
+            backgroundImage.enabled = false;
         }
-        if (IsOnBoard || card.ownerID == currentPlayerID)
+        else if (IsOnBoard || card.ownerID == currentPlayerID)
         {
             Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
             illustration.enabled = true;
@@ -269,6 +272,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             manaCost.enabled = true;
             damage.enabled = true;
             health.enabled = true;
+            backgroundImage.enabled = false;
         }
         else
         {
@@ -277,6 +281,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             manaCost.enabled = false;
             damage.enabled = false;
             health.enabled = false;
+            backgroundImage.enabled = true;
         }
 
     }

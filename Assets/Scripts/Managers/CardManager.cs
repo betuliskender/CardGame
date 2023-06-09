@@ -104,9 +104,22 @@ public class CardManager : MonoBehaviour
             CardController newCard = Instantiate(cardControllerPrefab, card.card.ownerID == 0 ? player1Discard.root : player1Discard.root);
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card.card, card.card.ownerID, card.card.ownerID == 0 ? player1Discard : player2Discard);
-            card.isDiscarded = true;
-            Debug.Log("CARD DISCARDED");
+            newCard.isDiscarded = true;
+            newCard.illustration.enabled = true;
+            newCard.cardName.enabled = true;
+            newCard.manaCost.enabled = true;
+            newCard.damage.enabled = true;
+            newCard.health.enabled = true;
+            newCard.backgroundImage.enabled = false;
+
+            if(card.card.ownerID == 0)
+        {
             player1DiscardPile.Push(newCard);
+        }
+            else
+        {
+            player2DiscardPile.Push(newCard);
+        }
             Debug.Log(player1DiscardPile.Count);
             Destroy(card.gameObject);
 
