@@ -55,7 +55,7 @@ public class MulliganManager : MonoBehaviour
             SwapCards(activePlayerCards, playerHandArea, player);
             TurnManager.instance.ChangeActivePlayer();
             selectedCards.Clear();
-            CardController.instance.selectedCards.Clear();
+            //CardController.instance.selectedCards.Clear();
             }
             else if(player2HasMulliganed)
             {

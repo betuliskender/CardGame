@@ -42,7 +42,7 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Button clicked, but it's not the current player's turn. Current player: " + TurnManager.instance.CurrentPlayerTurn);
+
             }
         });
 
@@ -52,7 +52,6 @@ public class CardManager : MonoBehaviour
     private void Start()
     {
         instance = this;
-        //EditDeckManager.instance.ChosenCardsToList(EditDeckManager.instance.chosenCards);
         player1Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck(1));
         player2Deck = new Deck(EditDeckManager.instance.RetrieveCardDeck(2));
         SetupButton(player1Button, player1HandArea, 0, player1Deck);
@@ -82,16 +81,17 @@ public class CardManager : MonoBehaviour
                 newCard.transform.localPosition = Vector3.zero;
                 newCard.Initialize(card, playerID, playerMulliganArea);
                 playerHand.Add(newCard);
+                //Debug.Log(playerHand.Count);
+            
         }
 
     }
 
     public void PlayCard(CardController card, int ID)
     {
+
         if (ID == 0)
-        {
-            
-               
+        {    
             player1ActiveCards.Add(card);
         }
         else
@@ -99,7 +99,8 @@ public class CardManager : MonoBehaviour
             player2ActiveCards.Add(card);
         }
 
-        card.ActionCall();
+            card.ActionCall();
+
     }
 
     public void DiscardCard(CardController card)
@@ -149,7 +150,7 @@ public class CardManager : MonoBehaviour
             if (card.card.health <= 0)
             {
                 DiscardCard(card);
-                //Destroy(card.gameObject);
+
             }
 
             if(card != null)

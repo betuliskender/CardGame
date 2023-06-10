@@ -12,7 +12,9 @@ public class ItemCard : Card, IHeal, IInstant
         this.healAmount = healAmount;
     }
 
-    public ItemCard ()
+    
+
+    public ItemCard(ItemCard itemCard): base(itemCard)
     {
 
     }

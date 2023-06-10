@@ -7,10 +7,6 @@ public class Card
     public int health, damage, manaCost, ownerID;
     public Sprite illustration;
 
-    public Card()
-    {
-
-    }
 
     public Card(Card card)
     {
@@ -19,7 +15,6 @@ public class Card
         damage = card.damage;
         manaCost = card.manaCost;
         illustration = card.illustration;
-
     }
 
     public void CardActionTest()
