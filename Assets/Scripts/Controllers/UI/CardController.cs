@@ -17,10 +17,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private Transform originalParent;
     public event Action CardAction;
     public bool isSelected = false;
-    //Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
-    //public int amountOfCardsToSwap = 0;
-    //public List<CardController> selectedCards = new List<CardController>();
-    //public static CardController instance;
     public bool IsOnBoard { get; private set; }
     public bool isDiscarded = false;
 
