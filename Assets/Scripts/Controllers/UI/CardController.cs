@@ -32,8 +32,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void ActionCall()
     {
-        CardAction?.Invoke();
-        
+        CardAction?.Invoke(); 
     }
     
     public void Initialize(Card card, int ownerID, Transform intendedParent)
@@ -65,6 +64,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             SpellCard spellCard = new SpellCard(card, sc.SpellPower);
             spellCard.ownerID = ownerID;
 
+            CardAction = null;
             CardAction += Discard;
             CardAction += spellCard.Instant;
 
@@ -77,7 +77,8 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
             ItemCard itemCard = new ItemCard(card, ic.healAmount);
             itemCard.ownerID = ownerID;
-            
+
+            CardAction = null;
             CardAction += itemCard.Instant;
             CardAction += Discard;
 
