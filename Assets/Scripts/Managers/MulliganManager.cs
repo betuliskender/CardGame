@@ -54,7 +54,6 @@ public class MulliganManager : MonoBehaviour
             List<CardController> activePlayerCards = player == 0 ? CardManager.instance.player1Hand : CardManager.instance.player2Hand;
             SwapCards(activePlayerCards, playerHandArea, player);
             TurnManager.instance.ChangeActivePlayer();
-            Debug.Log("Active player is now: " + TurnManager.instance.CurrentPlayerTurn);
             selectedCards.Clear();
             CardController.instance.selectedCards.Clear();
             }
@@ -72,13 +71,7 @@ public class MulliganManager : MonoBehaviour
     private List<CardController> SwapCards(List<CardController> cards, Transform playerHandArea, int player)
     {
         List<CardController> tempCardsPlayer = new List<CardController>(selectedCards);
-        Debug.Log("Amount of cards in the temp list: " + tempCardsPlayer.Count);
-        selectedCards.Clear(); // Clear selectedCards before destroying the old cards
-
-        //foreach (Transform child in playerHandArea.transform)
-        //{
-        //    GameObject.Destroy(child.gameObject);
-       // }
+        selectedCards.Clear();
 
         foreach (CardController selectedCard in tempCardsPlayer)
         {
@@ -117,9 +110,6 @@ public class MulliganManager : MonoBehaviour
             card.Initialize(card.card, 1, CardManager.instance.player2HandArea);
         }
     }
-
-
-
 
     // Update is called once per frame
     void Update()

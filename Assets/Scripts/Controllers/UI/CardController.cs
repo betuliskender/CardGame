@@ -118,8 +118,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if (!isSelected && MulliganManager.instance.selectedCards.Count < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
             {
                 isSelected = true;
-                //Debug.Log("Dette kort har ownerID: " + card.ownerID);
-                //amountOfCardsToSwap++;
                 if (card.ownerID == 0 && isSelected)
                 {
                     transform.localPosition += new Vector3(0f, 280f, 0f);
@@ -130,16 +128,13 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     transform.localPosition += new Vector3(0f, -280f, 0f);
                     transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                 }
-                //transform.localScale = selectorScaler2000;
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
                 MulliganManager.instance.selectedCards.Add(this);
-                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
             }
             else if (isSelected)
             {
                 isSelected = false;
-                //amountOfCardsToSwap--;
                 if (card.ownerID == 0 && !isSelected)
                 {
                     transform.localPosition -= new Vector3(0f, -280f, 0f);
@@ -153,7 +148,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 transform.SetParent(originalParent);
                 image.raycastTarget = true;
                 MulliganManager.instance.selectedCards.Remove(this);
-                Debug.Log("Amount of cards in selectedCards: " + MulliganManager.instance.selectedCards.Count);
             }
         }
         else if (originalParent.name == $"Player{card.ownerID + 1}PlayArea" || TurnManager.instance.currentPlayerTurn != card.ownerID)
@@ -238,12 +232,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         List<CardController> selectedCards = new List<CardController>();
 
-        // Loop through the children of the original parent
         foreach (Transform child in originalParent)
         {
             CardController card = child.GetComponent<CardController>();
 
-            // Check if the card is selected
             if (card != null && card.isSelected)
             {
                 selectedCards.Add(card);
@@ -266,7 +258,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else if (IsOnBoard || card.ownerID == currentPlayerID)
         {
-            Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
             illustration.enabled = true;
             cardName.enabled = true;
             manaCost.enabled = true;

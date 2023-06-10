@@ -34,7 +34,6 @@ public class CardManager : MonoBehaviour
         {
             if (TurnManager.instance.CurrentPlayerTurn == ID)
             {
-                Debug.Log(deck.cardStack.Count);
                 var card = deck.DrawCard();
                 CardController newCard = Instantiate(cardControllerPrefab, hand.root);
                 newCard.transform.localPosition = Vector3.zero;
@@ -70,7 +69,6 @@ public class CardManager : MonoBehaviour
             newCard.transform.localPosition = Vector3.zero;
             newCard.Initialize(card, playerID, playerMulliganArea);
             playerHand.Add(newCard);
-            //Debug.Log(playerHand.Count);
         }
       
     }
@@ -84,8 +82,6 @@ public class CardManager : MonoBehaviour
                 newCard.transform.localPosition = Vector3.zero;
                 newCard.Initialize(card, playerID, playerMulliganArea);
                 playerHand.Add(newCard);
-                //Debug.Log(playerHand.Count);
-            
         }
 
     }
@@ -123,7 +119,6 @@ public class CardManager : MonoBehaviour
         {
             player2DiscardPile.Push(newCard);
         }
-            Debug.Log(player1DiscardPile.Count);
             Destroy(card.gameObject);
 
     }
