@@ -10,6 +10,7 @@ public class MulliganManager : MonoBehaviour
     private static MulliganManager _instance;
     public static bool isMulliganActive = true;
     public List<CardController> selectedCards = new List<CardController>();
+    public bool player2HasMulliganed = false;
 
     public static MulliganManager instance
     {
@@ -48,7 +49,7 @@ public class MulliganManager : MonoBehaviour
     {
         button.onClick.AddListener(() =>
         {
-        if (TurnManager.instance.CurrentPlayerTurn == player)
+        if (TurnManager.instance.CurrentPlayerTurn == player && !player2HasMulliganed)
         {
             List<CardController> activePlayerCards = player == 0 ? CardManager.instance.player1Hand : CardManager.instance.player2Hand;
             SwapCards(activePlayerCards, playerHandArea, player);
@@ -56,6 +57,10 @@ public class MulliganManager : MonoBehaviour
             Debug.Log("Active player is now: " + TurnManager.instance.CurrentPlayerTurn);
             selectedCards.Clear();
             CardController.instance.selectedCards.Clear();
+            }
+            else if(player2HasMulliganed)
+            {
+                Debug.Log("Button clicked, but you can only mulligan once. Hit end mulligan to start the game");
             }
             else
             {
@@ -90,6 +95,7 @@ public class MulliganManager : MonoBehaviour
         {
             CardManager.instance.DrawMulliganedCards(playerHandArea, cards, CardManager.instance.player2Deck, 1, tempCardsPlayer.Count);
             CardManager.instance.player2Deck.ReShuffleCards(tempCardsPlayer);
+            player2HasMulliganed = true;
         }
 
         return tempCardsPlayer;

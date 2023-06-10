@@ -139,7 +139,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             else if (isSelected)
             {
                 isSelected = false;
-                amountOfCardsToSwap--;
+                //amountOfCardsToSwap--;
                 if (card.ownerID == 0 && !isSelected)
                 {
                     transform.localPosition -= new Vector3(0f, -280f, 0f);
