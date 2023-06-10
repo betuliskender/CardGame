@@ -56,7 +56,7 @@ public class MulliganManager : MonoBehaviour
             TurnManager.instance.ChangeActivePlayer();
             Debug.Log("Active player is now: " + TurnManager.instance.CurrentPlayerTurn);
             selectedCards.Clear();
-            CardController.instance.selectedCards.Clear();
+            //CardController.instance.selectedCards.Clear();
             }
             else if(player2HasMulliganed)
             {

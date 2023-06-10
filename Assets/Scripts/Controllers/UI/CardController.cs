@@ -17,17 +17,15 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private Transform originalParent;
     public event Action CardAction;
     public bool isSelected = false;
-    Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
-    public int amountOfCardsToSwap = 0;
-    public List<CardController> selectedCards = new List<CardController>();
-    public static CardController instance;
+    //Vector3 selectorScaler2000 = new Vector3(1.2f, 1.2f, 1f);
+    //public int amountOfCardsToSwap = 0;
+    //public List<CardController> selectedCards = new List<CardController>();
+    //public static CardController instance;
     public bool IsOnBoard { get; private set; }
     public bool isDiscarded = false;
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
         image = GetComponent<Image>();
         backgroundImage = transform.Find("Background").GetComponent<Image>();
     }
@@ -63,17 +61,17 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (card.GetType() == typeof(SpellCard))
         {
-            
             SpellCard sc = (SpellCard)card;
             SpellCard spellCard = new SpellCard(card, sc.SpellPower);
             spellCard.ownerID = ownerID;
 
+            CardAction += Discard;
             CardAction += spellCard.Instant;
 
             return spellCard;
         }
 
-        if (card.GetType() == typeof(ItemCard))
+        else if (card.GetType() == typeof(ItemCard))
         {
             ItemCard ic = (ItemCard)card;
 
@@ -81,17 +79,22 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             itemCard.ownerID = ownerID;
             
             CardAction += itemCard.Instant;
+            CardAction += Discard;
 
             return itemCard;
         }
-        
+        else
+        {
+
             this.card = new Card(card)
             {
                 ownerID = ownerID
             };
+            
             CardAction += this.card.CardActionTest;
 
              return this.card;
+        }
         
     }
 
@@ -99,6 +102,11 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         card.health -= amount;
         health.text = card.health.ToString();
+    }
+
+    public void Discard()
+    {
+        CardManager.instance.DiscardCard(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -118,8 +126,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if (!isSelected && MulliganManager.instance.selectedCards.Count < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
             {
                 isSelected = true;
-                //Debug.Log("Dette kort har ownerID: " + card.ownerID);
-                //amountOfCardsToSwap++;
+
                 if (card.ownerID == 0 && isSelected)
                 {
                     transform.localPosition += new Vector3(0f, 280f, 0f);
@@ -130,7 +137,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     transform.localPosition += new Vector3(0f, -280f, 0f);
                     transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                 }
-                //transform.localScale = selectorScaler2000;
+
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
                 MulliganManager.instance.selectedCards.Add(this);
@@ -139,7 +146,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             else if (isSelected)
             {
                 isSelected = false;
-                //amountOfCardsToSwap--;
+
                 if (card.ownerID == 0 && !isSelected)
                 {
                     transform.localPosition -= new Vector3(0f, -280f, 0f);
@@ -238,12 +245,11 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         List<CardController> selectedCards = new List<CardController>();
 
-        // Loop through the children of the original parent
+
         foreach (Transform child in originalParent)
         {
             CardController card = child.GetComponent<CardController>();
 
-            // Check if the card is selected
             if (card != null && card.isSelected)
             {
                 selectedCards.Add(card);
@@ -266,7 +272,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else if (IsOnBoard || card.ownerID == currentPlayerID)
         {
-            Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
+
             illustration.enabled = true;
             cardName.enabled = true;
             manaCost.enabled = true;
