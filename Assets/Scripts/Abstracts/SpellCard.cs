@@ -22,7 +22,6 @@ public class SpellCard : Card, IInstant
     public void Instant() 
     {
 
-        Debug.Log("Her sker noget på spell");
         if(ownerID == 0)
         {
             PlayerManager.instance.DamagePlayer(1, SpellPower);

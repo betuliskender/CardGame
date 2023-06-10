@@ -30,7 +30,6 @@ public class EditDeckManager : MonoBehaviour
     private void Awake()
     {
         instance = this;   
-        //SetupAvailableCards();
         SetupButton();
     }
 

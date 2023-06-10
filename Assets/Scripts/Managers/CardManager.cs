@@ -81,7 +81,7 @@ public class CardManager : MonoBehaviour
                 newCard.transform.localPosition = Vector3.zero;
                 newCard.Initialize(card, playerID, playerMulliganArea);
                 playerHand.Add(newCard);
-                //Debug.Log(playerHand.Count);
+
             
         }
 
