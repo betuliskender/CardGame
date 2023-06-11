@@ -14,6 +14,7 @@ public class MulliganManager : MonoBehaviour
     public bool player2HasMulliganed = false;
     public TextMeshProUGUI assignText;
     public TextMeshProUGUI notYourTurnText;
+    public TextMeshProUGUI hitEndButtonText;
 
     public static MulliganManager instance
     {
@@ -59,7 +60,7 @@ public class MulliganManager : MonoBehaviour
             }
             else if(player2HasMulliganed)
             {
-                Debug.Log("Button clicked, but you can only mulligan once. Hit end mulligan to start the game");
+                StartCoroutine(HitEndButtonText());
             }
             else
             {
@@ -131,7 +132,16 @@ public class MulliganManager : MonoBehaviour
 
         assignText.text = $"Oops! That's not your button!";
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
+        assignText.gameObject.SetActive(false);
+    }
+    public IEnumerator HitEndButtonText()
+    {
+        assignText.gameObject.SetActive(true);
+
+        assignText.text = $"Button clicked, but you can only mulligan once. Hit end mulligan to start the game!";
+
+        yield return new WaitForSeconds(6f);
         assignText.gameObject.SetActive(false);
     }
 }
