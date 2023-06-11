@@ -17,6 +17,16 @@ public class Card
         illustration = card.illustration;
     }
 
+    public Card(string cardName, int health, int damage, int manaCost, int ownerID, Sprite illustration)
+    {
+        this.cardName = cardName;
+        this.health = health;
+        this.damage = damage;
+        this.manaCost = manaCost;
+        this.ownerID = ownerID;
+        this.illustration = illustration;
+    }
+
     public void CardActionTest()
     {
     }

@@ -85,9 +85,9 @@ public class EditDeckManager : MonoBehaviour
     public void SetupAvailableCards()
     {
 
-      
 
-        foreach (Card card in cards)
+
+        /*foreach (Card card in cards)
         {
             AddCardToGrid(card);
 
@@ -107,9 +107,25 @@ public class EditDeckManager : MonoBehaviour
 
         }
 
+        var gridContent = GameObject.Find("AvailableCardsGrid");
+        CardPreviewController newCard = Instantiate(cardControllerPrefab, gridContent.transform.root);
+        newCard.transform.localPosition = Vector3.zero;
+        newCard.Initialize(CardGeneratorManager.instance.getWither(-1), 1, gridContent.transform);
+
+        newCard = Instantiate(cardControllerPrefab, gridContent.transform.root);
+        newCard.transform.localPosition = Vector3.zero;
+        newCard.Initialize(CardGeneratorManager.instance.GetWhiskey(-1), 1, gridContent.transform);
+        */
+
+        foreach (AbstractCard card in CardGeneratorManager.instance.getAvailableCards())
+        {
+            AddCardToGrid(card);
+
+        }
+
     }
 
-    private void AddCardToGrid(Card card)
+    private void AddCardToGrid(AbstractCard card)
     {
         var gridContent = GameObject.Find("AvailableCardsGrid");
 

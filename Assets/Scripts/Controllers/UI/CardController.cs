@@ -56,6 +56,12 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (card.GetType() == typeof(SpellCard))
         {
+
+            if(card.cardName == "Wither")
+            {
+                //return CardGeneratorManager.instance.getWither(ownerID);
+            }
+
             SpellCard sc = (SpellCard)card;
             SpellCard spellCard = new SpellCard(card, sc.SpellPower);
             spellCard.ownerID = ownerID;
