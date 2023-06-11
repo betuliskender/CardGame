@@ -22,7 +22,6 @@ public class MulliganManager : MonoBehaviour
             return _instance;
         }
     }
-    // Start is called before the first frame update
     void Start()
     {
         CardManager.instance.GenerateCards(player1HandArea, CardManager.instance.player1Hand, CardManager.instance.player1Deck, 0);

@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
     public Deck player1Deck, player2Deck;
     public Stack<CardController> player1DiscardPile = new Stack<CardController>(), player2DiscardPile = new Stack<CardController>();
     public Transform player1Discard, player2Discard;
-    public Transform player1HandArea, player2HandArea;
+    public Transform player1HandArea, player2HandArea, boardArea;
     public Button player1Button, player2Button;
     public CardController cardControllerPrefab;
     public List<CardController> player1ActiveCards = new List<CardController>(),
@@ -137,7 +137,6 @@ public class CardManager : MonoBehaviour
             if (card.card.health <= 0)
             {
                 DiscardCard(card);
-                //Destroy(card.gameObject);
             }
 
             if(card != null)
@@ -167,15 +166,32 @@ public class CardManager : MonoBehaviour
 
     private void AttackEnemyPlayer(List<CardController> enemyCards, CardController cardController)
     {
-        if (AreThereCardsWithHealth(enemyCards))
+        if (TurnManager.instance.isBoardActive)
         {
-            AttackCards(enemyCards, cardController);
+            AttackBoard(cardController);
         }
         else
         {
-            AttackPlayer(cardController);
+            if (AreThereCardsWithHealth(enemyCards))
+            {
+                AttackCards(enemyCards, cardController);
+            }
+            else
+            {
+                AttackPlayer(cardController);
+            }
         }
     }
+
+    private void AttackBoard(CardController cardController)
+    {
+        PlayerManager.instance.DamagePlayer(PlayerManager.instance.playerList[2].ID, cardController.card.damage);
+        if (PlayerManager.instance.playerList[2].health <= 0) {
+            TurnManager.instance.isBoardActive = false;
+        }
+        
+    }
+
 
     private void AttackPlayer(CardController cardController)
     {
@@ -204,7 +220,7 @@ public class CardManager : MonoBehaviour
         cardController.Damage(enemyCards[randomEnemyCard].card.damage);
     }
 
-    private bool AreThereCardsWithHealth(List<CardController> cards)
+    public bool AreThereCardsWithHealth(List<CardController> cards)
     {
         bool cardHasHealth = false;
         foreach (CardController card in cards)

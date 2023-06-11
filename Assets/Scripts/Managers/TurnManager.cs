@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
     public static TurnManager instance;
     public int currentPlayerTurn;
-    private int currentTurn = 1;
+    public int currentTurn = 1;
     public bool mulliganPhase = true;
     public int CurrentPlayerTurn => currentPlayerTurn;
+    public bool isBoardActive = false;
+    public TextMeshProUGUI boardText;
+    private bool isBoardDeadTextShown = false;
+    private bool isShowBoardTextShown = false;
 
     private void Awake()
     {
@@ -26,15 +31,38 @@ public class TurnManager : MonoBehaviour
         
             currentPlayerTurn = playerID;
             StartTurn();
+                    
     }
 
     public void StartTurn()
     {
         GamePlayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn, currentTurn);
-        //CardManager.instance.ProcessStartTurn(currentPlayerTurn);
         CardManager.instance.ProcessCardsAtStartTurn(CardManager.instance.player1ActiveCards, CardManager.instance.player2ActiveCards);
 
+        if (currentTurn == 5 && !isShowBoardTextShown)
+        {
+            isShowBoardTextShown = true;
+            isBoardActive = true;
+            StartCoroutine(ShowBoardText());
+        }
+
+        if (PlayerManager.instance.playerList[2].health <= 0 && !isBoardDeadTextShown)
+        {
+            isBoardDeadTextShown = true;
+            StartCoroutine(BoardDeadText());
+        }
+
+    }
+
+    private IEnumerator ShowBoardText()
+    {
+        boardText.gameObject.SetActive(true);
+        boardText.text = "Prepare, mortals, for your feeble grasp on sanity shall be shattered!";
+
+        yield return new WaitForSeconds(5f);
+        boardText.gameObject.SetActive(false);
+        UIManager.instance.boardHealth.gameObject.SetActive(true);
     }
 
     public void EndTurn()
@@ -57,12 +85,28 @@ public class TurnManager : MonoBehaviour
             currentTurn++;
         }
 
+        if(isBoardActive)
+        {
+            PlayerManager.instance.BoardLogic();
+        }
+
+
     }
 
-    public void ChangeActivePlayer()
+    private IEnumerator BoardDeadText()
+    {
+        UIManager.instance.boardHealth.gameObject.SetActive(false);
+        boardText.gameObject.SetActive(true);
+        boardText.text = "The ancient one falls but the fight still continues. Kill your oponent to win the game!";
+
+        yield return new WaitForSeconds(5f);
+        boardText.gameObject.SetActive(false);
+    }
+
+
+public void ChangeActivePlayer()
     {
         currentPlayerTurn = (currentPlayerTurn + 1) % 2;
-        Debug.Log("Active player changed to: " + currentPlayerTurn);
     }
 
     private IEnumerator WaitForAttacks(float cards)

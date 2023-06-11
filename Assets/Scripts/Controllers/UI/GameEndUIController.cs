@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Reflection;
 
 public class GameEndUIController : MonoBehaviour
 {
@@ -52,5 +53,9 @@ public class GameEndUIController : MonoBehaviour
     {
         winnerName.text = $"Player: {winner+1} has won!";
     }
-    
+
+    internal void InitializeBoardWin()
+    {
+        winnerName.text = $"You lost against the evil darkness and are now lost in time and space";
+    }
 }

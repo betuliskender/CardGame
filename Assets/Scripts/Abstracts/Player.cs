@@ -16,4 +16,10 @@ public class Player
         this.ID = ID;
     }
 
+    public Player(int health, int ID)
+    {
+        this.health = health;
+        this.ID = ID;
+    }
+
 }
