@@ -7,7 +7,7 @@ public class TurnManager : MonoBehaviour
     public static TurnManager instance;
     public int currentPlayerTurn;
     private int currentTurn = 1;
-    public bool mulliganPhase = true;
+
     public int CurrentPlayerTurn => currentPlayerTurn;
 
     private void Awake()
@@ -18,7 +18,6 @@ public class TurnManager : MonoBehaviour
 
     private void Start()
     {
-        //mulliganPhase = true;
         StartTurnGamePlay(0);
     }
 

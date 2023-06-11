@@ -39,7 +39,6 @@ public class MulliganManager : MonoBehaviour
         {
             isMulliganActive = false;
             Debug.Log("MulliganPhase is now over");
-            TurnManager.instance.mulliganPhase = false;
             TurnManager.instance.currentPlayerTurn = 0;
             transformParent();
         });
