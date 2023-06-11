@@ -107,7 +107,7 @@ public class TurnManager : MonoBehaviour
 public void ChangeActivePlayer()
     {
         currentPlayerTurn = (currentPlayerTurn + 1) % 2;
-        Debug.Log("Active player changed to: " + currentPlayerTurn);
+        StartCoroutine(MulliganManager.instance.ShowPlayerTurnText(currentPlayerTurn));
         UpdateCardVisibility();
     }
 

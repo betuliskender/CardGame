@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class MulliganManager : MonoBehaviour
     public static bool isMulliganActive = true;
     public List<CardController> selectedCards = new List<CardController>();
     public bool player2HasMulliganed = false;
+    public TextMeshProUGUI assignText;
 
     public static MulliganManager instance
     {
@@ -113,6 +115,15 @@ public class MulliganManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public IEnumerator ShowPlayerTurnText(int ID)
+    {
+        assignText.gameObject.SetActive(true);
+        assignText.text = $"Player{ID + 1}'s turn!";
+
+        yield return new WaitForSeconds(5f);
+        assignText.gameObject.SetActive(false);
     }
 
 }
