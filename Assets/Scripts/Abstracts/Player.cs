@@ -22,4 +22,12 @@ public class Player
         this.ID = ID;
     }
 
+    public void IncreaseMana()
+    {
+        if(mana < 10)
+        {
+            mana++;
+        }
+    }
+
 }

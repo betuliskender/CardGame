@@ -25,8 +25,12 @@ public class PlayerManager : MonoBehaviour
             player.myTurn = player.ID == currentPlayerTurn;
             if (player.myTurn && player.ID == 0 || player.ID == 1)
             {
-                player.mana = currentTurn;
                 UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
+            }
+
+            if(currentPlayerTurn == 0 && currentPlayerTurn != 1)
+            {
+                player.IncreaseMana();
             }
             
         }
