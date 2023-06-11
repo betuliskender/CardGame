@@ -1457,8 +1457,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1926485905}
   m_HandleRect: {fileID: 1926485904}
   m_Direction: 2
-  m_Value: 0.99997735
-  m_Size: 0.9092151
+  m_Value: 0.99999404
+  m_Size: 0.7363298
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6142,8 +6142,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -51.23059}
-  m_SizeDelta: {x: 0, y: 102.4657}
+  m_AnchoredPosition: {x: 0, y: -183.73218}
+  m_SizeDelta: {x: 0, y: 367.469}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1511051373
 MonoBehaviour:
@@ -7030,79 +7030,101 @@ MonoBehaviour:
     damage: 3
     manaCost: 4
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 78036528818570842989e87c2efe1c46, type: 3}
   - cardName: Beast
     health: 1
     damage: 1
     manaCost: 1
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 5abe16512f5683a49904364cc3f44154, type: 3}
   - cardName: Byakhee
     health: 1
     damage: 2
     manaCost: 1
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: fcc762d85a70bd64d92598013136de4b, type: 3}
   - cardName: Ghoul Cultust
     health: 1
     damage: 3
     manaCost: 2
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 230bbd0f929794349ac43ed577ac0804, type: 3}
   - cardName: Ghoul
     health: 2
     damage: 2
     manaCost: 3
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 0e2b28f235860944aa704f567b8f848b, type: 3}
   - cardName: Cultist Leader
     health: 4
     damage: 2
     manaCost: 4
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 9371972651809d440a640e1a442498e4, type: 3}
   - cardName: Star Spawn
     health: 6
     damage: 6
     manaCost: 7
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: d5bad3ee32591f240bb7ad449ef32093, type: 3}
   - cardName: Thrall
     health: 4
     damage: 3
     manaCost: 4
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 63d564e5e5afdf1468ea25602b773bfa, type: 3}
   spellCards:
   - cardName: Wither
     health: 0
-    damage: 0
+    damage: 2
     manaCost: 2
     ownerID: -1
+    sanityCost: 2
     illustration: {fileID: 21300000, guid: 1d69720ca7e072240999ef70713fb412, type: 3}
     SpellPower: 3
   - cardName: Gate
     health: 0
-    damage: 0
-    manaCost: 2
+    damage: 3
+    manaCost: 3
     ownerID: -1
+    sanityCost: 3
     illustration: {fileID: 21300000, guid: ae97f5ae1ac1dfa4a8889ceb68ec97e9, type: 3}
     SpellPower: 3
   - cardName: Bad Touch
     health: 0
-    damage: 0
-    manaCost: 2
+    damage: 1
+    manaCost: 1
     ownerID: -1
+    sanityCost: 1
     illustration: {fileID: 21300000, guid: f5ef2b59f311db74b954b4212a69d09e, type: 3}
-    SpellPower: 2
+    SpellPower: 1
   itemCards:
   - cardName: Whiskey
     health: 0
     damage: 0
     manaCost: 2
     ownerID: -1
+    sanityCost: 0
     illustration: {fileID: 21300000, guid: 30b9c9e1c35333343add6ba2f62723af, type: 3}
     healAmount: 2
+    sanityAmount: 0
+  - cardName: Kitten
+    health: 0
+    damage: 0
+    manaCost: 2
+    ownerID: -1
+    sanityCost: 0
+    illustration: {fileID: 21300000, guid: 57dd917f5fdd9614481fa7bc27b576ff, type: 3}
+    healAmount: 0
+    sanityAmount: 2
   cardControllerPrefab: {fileID: 616356976429707914, guid: 536af72414f031b42a9448500f931650, type: 3}
   confirmbutton: {fileID: 1476546712}
   switchPlayerButton: {fileID: 401994034}
@@ -7448,8 +7470,8 @@ RectTransform:
   m_Father: {fileID: 992159815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.09078285}
-  m_AnchorMax: {x: 1, y: 0.999998}
+  m_AnchorMin: {x: 0, y: 0.26366863}
+  m_AnchorMax: {x: 1, y: 0.9999984}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8213,7 +8235,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 380514971}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 330786222}

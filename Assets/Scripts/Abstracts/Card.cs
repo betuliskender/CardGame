@@ -4,7 +4,7 @@ using UnityEngine;
 public class Card
 {
     public string cardName;
-    public int health, damage, manaCost, ownerID;
+    public int health, damage, manaCost, ownerID, sanityCost;
     public Sprite illustration;
 
 
@@ -15,6 +15,7 @@ public class Card
         damage = card.damage;
         manaCost = card.manaCost;
         illustration = card.illustration;
+        sanityCost = card.sanityCost;
     }
 
     public void CardActionTest()

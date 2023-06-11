@@ -48,8 +48,6 @@ public class PlayerManager : MonoBehaviour
         Player player = FindPlayerByID(ID);
         player.health += healAmount;
         UIManager.instance.UpdateHealthValues(playerList[0].health, playerList[1].health);
-
-
     }
 
     private void PlayerLost(int ID)
@@ -74,6 +72,25 @@ public class PlayerManager : MonoBehaviour
     {
         FindPlayerByID(ownerID).mana -= manaCost;
         UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
+    }
+
+    internal void SpendSanity(int ownerID, int sanityCost)
+    {
+        FindPlayerByID(ownerID).sanity -= sanityCost;
+        UIManager.instance.UpdateSanityValues(playerList[0].sanity, playerList[1].sanity);
+    }
+
+    public void RegainPlayerSanity(int ID, int sanityAmount)
+    {
+        Player player = FindPlayerByID(ID);
+        player.sanity += sanityAmount;
+        UIManager.instance.UpdateSanityValues(playerList[0].health, playerList[1].health);
+    }
+
+    public void SpendCardCost(CardController card)
+    {
+        SpendMana(card.card.ownerID, card.card.manaCost);
+        SpendSanity(card.card.ownerID, card.card.sanityCost);
     }
 
 

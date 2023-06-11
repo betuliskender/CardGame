@@ -71,7 +71,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             ItemCard ic = (ItemCard)card;
 
-            ItemCard itemCard = new ItemCard(card, ic.healAmount);
+            ItemCard itemCard = new ItemCard(card, ic.healAmount, ic.sanityAmount);
             itemCard.ownerID = ownerID;
 
             CardAction = null;
@@ -123,8 +123,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if (!isSelected && MulliganManager.instance.selectedCards.Count < 3 && TurnManager.instance.CurrentPlayerTurn == card.ownerID)
             {
                 isSelected = true;
-                //Debug.Log("Dette kort har ownerID: " + card.ownerID);
-                //amountOfCardsToSwap++;
+
                 if (card.ownerID == 0 && isSelected)
                 {
                     transform.localPosition += new Vector3(0f, 280f, 0f);
@@ -135,7 +134,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     transform.localPosition += new Vector3(0f, -280f, 0f);
                     transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                 }
-                //transform.localScale = selectorScaler2000;
+
                 transform.SetParent(transform.root);
                 image.raycastTarget = false;
                 MulliganManager.instance.selectedCards.Add(this);
@@ -143,7 +142,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             else if (isSelected)
             {
                 isSelected = false;
-                //amountOfCardsToSwap--;
                 if (card.ownerID == 0 && !isSelected)
                 {
                     transform.localPosition -= new Vector3(0f, -280f, 0f);
@@ -189,10 +187,10 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if(eventData.pointerEnter != null && eventData.pointerEnter.name == $"Player{card.ownerID+1}PlayArea")
         {
-            if(PlayerManager.instance.FindPlayerByID(card.ownerID).mana >= card.manaCost)
+            if(PlayerManager.instance.FindPlayerByID(card.ownerID).mana >= card.manaCost && PlayerManager.instance.FindPlayerByID(card.ownerID).sanity >= card.sanityCost)
             {
                 PlayCard(eventData.pointerEnter.transform);
-                PlayerManager.instance.SpendMana(card.ownerID, card.manaCost);
+                PlayerManager.instance.SpendCardCost(this);
 
             }
             else
@@ -268,7 +266,6 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else if (IsOnBoard || card.ownerID == currentPlayerID)
         {
-            Debug.Log("Skiftet til at kunne se kort for: " + TurnManager.instance.CurrentPlayerTurn);
             illustration.enabled = true;
             cardName.enabled = true;
             manaCost.enabled = true;

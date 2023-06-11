@@ -18,3 +18,8 @@ public interface IHeal
 {
     int Heal();
 }
+
+public interface IRegainSanity
+{
+    int RegainSanity();
+}

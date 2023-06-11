@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Player
 {
-    public int health, mana;
+    public int health, mana, sanity;
     public int ID;
     public bool myTurn;
 

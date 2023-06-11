@@ -7,7 +7,7 @@ using Unity.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public TextMeshProUGUI player1Health, player2Health, player1Mana, player2Mana;
+    public TextMeshProUGUI player1Health, player2Health, player1Mana, player2Mana, player1Sanity, player2Sanity;
     public GameObject playGameUI;
     public GameObject endGameUI;
 
@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     { 
         UpdateHealthValues(player1.health, player2.health);
         UpdateManaValues(player1.mana, player2.mana);
+        UpdateSanityValues(player1.sanity, player2.sanity);
     }
 
     public void UpdateHealthValues(int player1Health, int player2Health)
@@ -42,5 +43,11 @@ public class UIManager : MonoBehaviour
     {
         this.player1Mana.text = player1Mana.ToString();
         this.player2Mana.text = player2Mana.ToString();
+    }
+
+    public void UpdateSanityValues(int player1Sanity, int player2Sanity)
+    {
+        this.player1Sanity.text = player1Sanity.ToString();
+        this.player2Sanity.text = player2Sanity.ToString();
     }
 }
