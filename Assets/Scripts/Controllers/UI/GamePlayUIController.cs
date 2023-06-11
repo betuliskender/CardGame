@@ -28,9 +28,12 @@ public class GamePlayUIController : MonoBehaviour
 
     public void UpdateCurrentPlayerTurn(int ID)
     {
-        currentPlayerTurn.gameObject.SetActive(true);
-        currentPlayerTurn.text = $"Player{ID + 1}'s turn!";
-        StartCoroutine(BlinkCurrentPlayerTurn());
+        if (currentPlayerTurn != null)
+        {
+            currentPlayerTurn.gameObject.SetActive(true);
+            currentPlayerTurn.text = $"Player{ID + 1}'s turn!";
+            StartCoroutine(BlinkCurrentPlayerTurn());
+        }
     }
 
     private IEnumerator BlinkCurrentPlayerTurn()

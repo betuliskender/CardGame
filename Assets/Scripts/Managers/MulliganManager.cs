@@ -13,6 +13,7 @@ public class MulliganManager : MonoBehaviour
     public List<CardController> selectedCards = new List<CardController>();
     public bool player2HasMulliganed = false;
     public TextMeshProUGUI assignText;
+    public TextMeshProUGUI notYourTurnText;
 
     public static MulliganManager instance
     {
@@ -55,7 +56,6 @@ public class MulliganManager : MonoBehaviour
             SwapCards(activePlayerCards, playerHandArea, player);
             TurnManager.instance.ChangeActivePlayer();
             selectedCards.Clear();
-            //CardController.instance.selectedCards.Clear();
             }
             else if(player2HasMulliganed)
             {
@@ -63,7 +63,7 @@ public class MulliganManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Button clicked, but it's not the current player's turn. Current player: " + TurnManager.instance.CurrentPlayerTurn);
+                StartCoroutine(NotYourTurnText());
             }
         });
     }
@@ -125,5 +125,13 @@ public class MulliganManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         assignText.gameObject.SetActive(false);
     }
+    public IEnumerator NotYourTurnText()
+    {
+        assignText.gameObject.SetActive(true);
 
+        assignText.text = $"Oops! That's not your button!";
+
+        yield return new WaitForSeconds(4f);
+        assignText.gameObject.SetActive(false);
+    }
 }
