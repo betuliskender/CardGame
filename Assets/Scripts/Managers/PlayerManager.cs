@@ -23,14 +23,15 @@ public class PlayerManager : MonoBehaviour
         foreach (Player player in playerList)
         {
             player.myTurn = player.ID == currentPlayerTurn;
-            if (player.myTurn && player.ID == 0 || player.ID == 1)
-            {
-                UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
-            }
 
             if(currentPlayerTurn == 0 && currentPlayerTurn != 1)
             {
                 player.IncreaseMana();
+            }
+            if (player.myTurn && player.ID == 0 || player.ID == 1)
+            {
+                player.currentMana = player.maxMana;
+                UIManager.instance.UpdateManaValues(playerList[0].currentMana, playerList[1].currentMana);
             }
             
         }
@@ -119,8 +120,8 @@ public class PlayerManager : MonoBehaviour
 
     internal void SpendMana(int ownerID, int manaCost)
     {
-        FindPlayerByID(ownerID).mana -= manaCost;
-        UIManager.instance.UpdateManaValues(playerList[0].mana, playerList[1].mana);
+        FindPlayerByID(ownerID).currentMana -= manaCost;
+        UIManager.instance.UpdateManaValues(playerList[0].currentMana, playerList[1].currentMana);
     }
 
     internal void SpendSanity(int ownerID, int sanityCost)

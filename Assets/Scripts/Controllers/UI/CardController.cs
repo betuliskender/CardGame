@@ -187,7 +187,7 @@ public class CardController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if(eventData.pointerEnter != null && eventData.pointerEnter.name == $"Player{card.ownerID+1}PlayArea")
         {
-            if(PlayerManager.instance.FindPlayerByID(card.ownerID).mana >= card.manaCost && PlayerManager.instance.FindPlayerByID(card.ownerID).sanity >= card.sanityCost)
+            if(PlayerManager.instance.FindPlayerByID(card.ownerID).currentMana >= card.manaCost && PlayerManager.instance.FindPlayerByID(card.ownerID).sanity >= card.sanityCost)
             {
                 PlayCard(eventData.pointerEnter.transform);
                 PlayerManager.instance.SpendCardCost(this);

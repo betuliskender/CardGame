@@ -5,14 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class Player
 {
-    public int health, mana, sanity;
+    public int health, currentMana, maxMana, sanity;
     public int ID;
     public bool myTurn;
 
     public Player(int health, int mana, int ID)
     {
         this.health = health;
-        this.mana = mana;
+        this.currentMana = mana;
         this.ID = ID;
     }
 
@@ -24,9 +24,9 @@ public class Player
 
     public void IncreaseMana()
     {
-        if(mana < 10)
+        if(maxMana < 10)
         {
-            mana++;
+            maxMana++;
         }
     }
 

@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     public void UpdateValues(Player player1, Player player2, Player board) 
     { 
         UpdateHealthValues(player1.health, player2.health, board.health);
-        UpdateManaValues(player1.mana, player2.mana);
+        UpdateManaValues(player1.currentMana, player2.currentMana);
         UpdateSanityValues(player1.sanity, player2.sanity);
     }
 
