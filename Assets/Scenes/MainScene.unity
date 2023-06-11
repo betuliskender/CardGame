@@ -3394,7 +3394,7 @@ MonoBehaviour:
   player2Discard: {fileID: 1206920213}
   player1HandArea: {fileID: 1686139775}
   player2HandArea: {fileID: 522683071}
-  boardArea: {fileID: 0}
+  boardArea: {fileID: 1746906817}
   player1Button: {fileID: 1008496074}
   player2Button: {fileID: 489579930}
   cardControllerPrefab: {fileID: -1444694407838539912, guid: f46229d7668be8b4eb79ce9080c68fea, type: 3}

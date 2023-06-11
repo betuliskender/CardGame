@@ -200,6 +200,11 @@ public class CardManager : MonoBehaviour
     private void AttackBoard(CardController cardController)
     {
         PlayerManager.instance.DamagePlayer(PlayerManager.instance.playerList[2].ID, cardController.card.damage);
+        cardController.transform.SetParent(cardController.transform.root);
+        cardController.transform.DOMove(boardArea.transform.position, 0.35f, true).onComplete += () =>
+        {
+            cardController.ReturnToHand();
+        };
         if (PlayerManager.instance.playerList[2].health <= 0) {
             TurnManager.instance.isBoardActive = false;
         }
